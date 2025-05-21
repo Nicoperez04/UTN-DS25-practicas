@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+}
+
+header {
+    color: azure;
+    background-color: rgb(0, 0, 0);
+    border-bottom: 2px solid black;
+    margin: 0;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 6px 10px black;
+}
+body {
+    background-color: rgb(250, 240, 226);
+}
+
+h2 {
+    margin: 10px;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0px 0px 3px white;
+}
+
+header button {
+    border-radius: 5px;
+    background-color: rgb(50, 50, 50);
+    box-shadow: 1px 1px 4px rgb(109, 109, 109);
+    margin: 5px;
+}
+
+button a {
+    all: unset;
+    font-size: larger;
+    color: white;
+
+}
+
+button:hover {
+    box-shadow: 0px 0px 10px white;
+}
+
+h3 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+#lista {
+    margin: 10px;
+    line-height: 30px;
+}
+
+li:hover{
+ border: 2px solid black;
+ border-radius: 3px;
+}
+
+
+hr {
+    color: black;
+    
+}

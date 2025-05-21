@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+}
+
+header {
+    color: azure;
+    background-color: rgb(0, 0, 0);
+    border-bottom: 2px solid black;
+    margin: 0;
+    padding: 15px;
+    display: flex;
+    box-shadow: 0px 6px 10px black;
+    justify-content: space-between;
+    align-items: right;
+}
+
+h1 {
+    margin: 10px;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0px 0px 3px white;
+}
+
+h1:hover {
+    text-transform: uppercase;
+}
+
+#contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      
+    justify-content: top;
+    text-align: center;
+    padding: 30px;
+    margin: 0;
+    background-image: url(gimnasia-1353056.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; /* o contain si querés ver la imagen completa */
+    background-position: top center;
+    height: 100vh;
+}
+
+header button {
+    border-radius: 5px;
+    background-color: rgb(50, 50, 50);
+    box-shadow: 1px 1px 4px rgb(109, 109, 109);
+    margin: 5px;
+}
+
+button a {
+    all: unset;
+    font-size: larger;
+    color: white;
+}
+
+button:hover {
+    box-shadow: 0px 0px 10px white;
+}
+
+li {
+    display: inline-block;
+    padding: 18px;
+    color: white;
+    font-size: large; 
+}

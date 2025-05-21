@@ -1,0 +1,34 @@
+h2 {
+    margin-left: 20px;
+}
+table {
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+td {
+    border: 1.5px solid black;
+    width: 10em;
+    height: 3em;
+    background-color: lightblue;
+}
+
+#f2c3 {
+    background-color: rgb(224, 226, 119);
+}
+
+.fila2 {
+    background-color: lightgreen;
+}
+
+.c3 {
+    background-color: pink;
+}
+
+.esquinas {
+    background-color: orange;
+}
+
+#f3c2 {
+    background-color: rgb(66, 66, 66);
+}
