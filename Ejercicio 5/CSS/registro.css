@@ -125,6 +125,25 @@ form select {
   padding-left: 10px;
 }
 
+input[type="color"],
+input[type="range"],
+input[type="tel"],
+input[type="url"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+input[type="color"] {
+  width: 60px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+
 button {
   background-color: #35113d;
   color: white;
