@@ -1,0 +1,53 @@
+/* CSS */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #35113d;
+    margin-bottom: 20px;
+}
+
+.botones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    max-width: 800px;
+    width: 100%;
+}
+
+button {
+    background-color: #35113d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #5e2c6d;
+}
+
+#salida {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px;
+    min-height: 100px;
+    color: #140d2d;
+    font-family: monospace;
+    white-space: pre-wrap;
+}

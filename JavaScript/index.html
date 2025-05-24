@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ejercicios JS</title>
+        <link rel="stylesheet" type="text/css" href="estilos.css"/>
+    </head>
+    <body>
+        <h1>Ejercicios JavaScript</h1>
+        <div class="botones">
+            <button onclick="ejecutar(1)">Ejercicio 1</button>
+            <button onclick="ejecutar(2)">Ejercicio 2</button>
+            <button onclick="ejecutar(3)">Ejercicio 3</button>
+            <button onclick="ejecutar(4)">Ejercicio 4</button>
+            <button onclick="ejecutar(5)">Ejercicio 5</button>
+            <button onclick="ejecutar(6)">Ejercicio 6</button>
+            <button onclick="ejecutar(7)">Ejercicio 7</button>
+            <button onclick="ejecutar(8)">Ejercicio 8</button>
+            <button onclick="ejecutar(9)">Ejercicio 9</button>
+            <button onclick="ejecutar(10)">Ejercicio 10</button>
+            <button onclick="ejecutar(11)">Ejercicio 11</button>
+            <button onclick="ejecutar(12)">Ejercicio 12</button>
+            <button onclick="ejecutar(13)">Ejercicio 13</button>
+            <button onclick="ejecutar(14)">Ejercicio 14</button>
+            <button onclick="ejecutar(15)">Ejercicio 15</button>
+        </div>
+        <div id="salida"></div>
+
+        <script type="text/javascript" src="archivo.js"></script>
+        <script>
+            /*Esto lo hizo chat*/
+            (function () {
+            const originalLog = console.log;
+            console.log = function(...args) {
+                const salida = document.getElementById("salida");
+                const texto = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join("\n");
+                salida.textContent += texto + "\n";
+                originalLog.apply(console, args);
+            };
+            })();
+
+            function ejecutar(num) {
+            const funcion = window["ejercicio" + num];
+            document.getElementById("salida").textContent = "";
+            if (typeof funcion === "function") {
+                funcion();
+            } else {
+                document.getElementById("salida").textContent = "Función no definida.";
+            }
+            }
+        </script>
+    </body>
+</html>
