@@ -178,8 +178,11 @@ function ejercicio15 (){
             alert("Ingresá un número válido y positivo.");
             return;
         }
-        let arbol = "*".repeat(altura);
-        console.log("Medio árbol:", arbol);
+        let resultado = "";
+        for (let i = 1; i <= altura; i++) {
+            resultado += "*".repeat(i) + "\n";
+        }
+        console.log(resultado);
     }
 crearArbolDesdeUsuario();
 }
