@@ -1,4 +1,4 @@
-// src/Componentes/dataHistoria.js
+
 import historia1Img from '../Imagenes/Resto/historia.jpg';
 import historia2Img from '../Imagenes/secHistoria/historia2.jpg';
 import historia3Img from '../Imagenes/secHistoria/historia3.jpg';

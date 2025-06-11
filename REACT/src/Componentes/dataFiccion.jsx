@@ -1,4 +1,4 @@
-// src/Componentes/dataFiccion.js
+
 export const librosFiccion = [
   {
     id: 'ficcion1',

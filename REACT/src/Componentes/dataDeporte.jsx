@@ -1,4 +1,4 @@
-// src/Componentes/dataDeporte.js
+
 import deporte1Img from '../Imagenes/Resto/deportes.jpg';
 import deporte2Img from '../Imagenes/secDeporte/deporte2.jpg';
 import deporte3Img from '../Imagenes/secDeporte/deporte3.jpg';

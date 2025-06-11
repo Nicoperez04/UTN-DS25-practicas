@@ -1,7 +1,6 @@
 import React from 'react';
 import BloqueTema from './BloqueTema';
 
-// Importa aquí todas tus imágenes:
 import ficcionImg   from '../Imagenes/Resto/ficcion.jpg';
 import deporteImg   from '../Imagenes/Resto/deportes.jpg';
 import infantilImg  from '../Imagenes/Resto/infantil.jpg';

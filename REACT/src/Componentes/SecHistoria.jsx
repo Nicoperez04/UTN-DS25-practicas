@@ -4,4 +4,4 @@ import { librosHistoria } from './dataHistoria';
 
 export default function SeccionHistoria() {
   return <Section title="Historia" libros={librosHistoria} />;
-}
+};

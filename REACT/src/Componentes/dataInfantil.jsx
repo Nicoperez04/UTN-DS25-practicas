@@ -1,4 +1,4 @@
-// src/Componentes/dataInfantil.js
+
 import infantil1Img from '../Imagenes/Resto/infantil.jpg';
 import infantil2Img from '../Imagenes/secInfantil/infantil2.jpg';
 import infantil3Img from '../Imagenes/secInfantil/infantil3.jpg';

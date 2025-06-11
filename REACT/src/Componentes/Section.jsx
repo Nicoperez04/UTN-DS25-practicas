@@ -1,7 +1,7 @@
 import React from 'react';
 import BloqueTema from './BloqueTema';
 
-export default function Section({ title, libros }) {
+export default function Section({ libros }) {
   return (
     <main id="contenidoPrincipal">
       <section className="seccion-libros">
