@@ -12,41 +12,41 @@ export const librosDeporte = [
     titulo: 'El sueño de mi desvelo',
     autor: 'Antoni Daimiel',
     portada: deporte1Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'deporte2',
     titulo: '100 Genios del balón',
     autor: 'Alberto Lati',
     portada: deporte2Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'deporte3',
     titulo: 'Una vida demasiado corta',
     autor: 'Robert Enke',
     portada: deporte3Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'deporte4',
     titulo: '101 Historia NBA',
     autor: 'Gonzalo Vázquez',
     portada: deporte4Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'deporte5',
     titulo: 'La biblia del triatleta',
     autor: 'Joe Friel',
     portada: deporte5Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'deporte6',
     titulo: 'El gran libro de los deportes',
     autor: 'Geronimo Stilton',
     portada: deporte6Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   }
 ];

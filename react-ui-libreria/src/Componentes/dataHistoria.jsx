@@ -12,41 +12,41 @@ export const librosHistoria = [
     titulo: 'Historia Argentina',
     autor: 'Teresa Eggers-Brass',
     portada: historia1Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'historia2',
     titulo: 'El puño del emperador',
     autor: 'Alberto Caliani',
     portada: historia2Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'historia3',
     titulo: 'Hidalgo',
     autor: 'Eugenio Aguirre',
     portada: historia3Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'historia4',
     titulo: 'Eso no estaba en mi libro de historia de Roma',
     autor: 'Javier Ramos',
     portada: historia4Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'historia5',
     titulo: 'Historia Moderna',
     autor: 'Martínez Millán y Rivero Rodríguez',
     portada: historia5Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'historia6',
     titulo: 'Historia Moderna de México',
     autor: 'Daniel Cosío Villegas',
     portada: historia6Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   }
 ];

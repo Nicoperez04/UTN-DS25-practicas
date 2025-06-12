@@ -12,41 +12,41 @@ export const librosInfantil = [
     titulo: 'El primer picnic de Jane',
     autor: 'Bella George',
     portada: infantil1Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'infantil2',
     titulo: 'Fábulas',
     autor: 'Rosa Navarro',
     portada: infantil2Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'infantil3',
     titulo: 'El Principito',
     autor: 'Antoine De Saint-Exupéry',
     portada: infantil3Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'infantil4',
     titulo: 'Los Cinco',
     autor: 'Gud Blyton',
     portada: infantil4Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'infantil5',
     titulo: 'Lina y sus nuevos amigos',
     autor: 'Gabriela Feliss',
     portada: infantil5Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'infantil6',
     titulo: 'El libro de la Selva',
     autor: 'Royland Hoyland',
     portada: infantil6Img,
-    descripcion: 'Descripción genérica'
+    descripcion: 'Descripción bla bla bla'
   }
 ];

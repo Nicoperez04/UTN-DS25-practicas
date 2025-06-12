@@ -5,41 +5,41 @@ export const librosFiccion = [
     titulo: 'El Problema de los 3 Cuerpos',
     autor: 'Cixin Liu',
     portada: require('../Imagenes/Resto/ficcion.jpg'),
-    descripcion: 'El Problema de los 3 cuerpos'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'ficcion2',
     titulo: 'La Cúpula',
     autor: 'Stephen King',
     portada: require('../Imagenes/secFiccion/ficcion2.jpg'),
-    descripcion: 'La Cúpula'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'ficcion3',
     titulo: 'Trilogía de Fundación',
     autor: 'Isaac Asimov',
     portada: require('../Imagenes/secFiccion/ficcion3.jpg'),
-    descripcion: 'Trilogía de Fundación'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'ficcion4',
     titulo: 'Un minuto antes de la Oscuridad',
     autor: 'Ismael Martínez',
     portada: require('../Imagenes/secFiccion/ficcion4.jpg'),
-    descripcion: 'Un minuto antes de la Oscuridad'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'ficcion5',
     titulo: 'Almas de color',
     autor: 'Francisco Sola',
     portada: require('../Imagenes/secFiccion/ficcion5.jpg'),
-    descripcion: 'Almas de color'
+    descripcion: 'Descripción bla bla bla'
   },
   {
     id: 'ficcion6',
     titulo: 'Viajero de la Noche',
     autor: 'George R.R. Martin',
     portada: require('../Imagenes/secFiccion/ficcion6.jpg'),
-    descripcion: 'Viajero de la Noche'
+    descripcion: 'Descripción bla bla bla'
   },
 ];
