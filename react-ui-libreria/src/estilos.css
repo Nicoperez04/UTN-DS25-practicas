@@ -37,6 +37,24 @@ header h2 {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+/*Alguna cosas para que quede responsive el header*/
+  @media (max-width: 900px) {
+    header h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    header h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    header h2 {
+      font-size: 1rem;
+    }
+  }
 
 #cabecera {
     display: flex;
@@ -124,31 +142,52 @@ footer {
   text-decoration: none;
 }
 
-.seccion-libros {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
-  margin: 100px;
+.contenido-principal {
+  margin-left: 200px;      
+  padding: 1rem 2rem;      
+  min-height: 100vh;
 }
 
+.seccion-libros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150px, 1fr)); /*Esto para que aparezca de 3x2 que antes no pude*/
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+/*Esto para que sea responsive en lo posible*/
+  @media (max-width: 900px) {
+    .seccion-libros {
+      grid-template-columns: repeat(2, minmax(200px, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .seccion-libros {
+      grid-template-columns: 1fr;
+    }
+  }
+
 .bloque-tema {
-    margin-top: 100px;
-    margin-left: 53px;
-    width: 220px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #d0d0d0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
+  max-width: 350px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .bloque-tema img {
-  width: 90%;
+  width: 100%;
   height: auto;
-  margin-bottom: 0px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
 }
 
 .bloque-tema a {

@@ -8,7 +8,8 @@ const libroInfantil = [{
   titulo: 'El primer picnic de Jane',
   autor: 'Bella George',
   portada: require('../Imagenes/Resto/infantil.jpg'),
-  descripcion: 'Descripción genérica'
+  descripcion: 'Descripción genérica',
+  seccion: 'Infantil'
 }];
 
 const libroFiccion = [{
@@ -16,7 +17,8 @@ const libroFiccion = [{
   titulo: 'El Problema de los 3 Cuerpos',
   autor: 'Cixin Liu',
   portada: require('../Imagenes/Resto/ficcion.jpg'),
-  descripcion: 'El Problema de los 3 cuerpos'
+  descripcion: 'El Problema de los 3 cuerpos',
+  seccion: 'Ficcion'
 }];
 
 const libroHistoria = [{
@@ -24,7 +26,8 @@ const libroHistoria = [{
   titulo: 'Historia Argentina',
   autor: 'Teresa Eggers-Brass',
   portada: require('../Imagenes/Resto/historia.jpg'),
-  descripcion: 'Descripción genérica'
+  descripcion: 'Descripción genérica',
+  seccion: 'Historia'
 }];
 
 const libroDeporte = [{
@@ -32,7 +35,8 @@ const libroDeporte = [{
   titulo: 'El sueño de mi desvelo',
   autor: 'Antoni Daimiel',
   portada: require('../Imagenes/Resto/deportes.jpg'),
-  descripcion: 'Descripción genérica'
+  descripcion: 'Descripción genérica',
+  seccion: 'Deporte'
 }];
 
 export default function Home() {
@@ -64,7 +68,7 @@ export default function Home() {
                   <Card.Text>{libro.descripcion}</Card.Text>
                   <div className="d-grid">
                     <Link to={rutas[libro.id]}>
-                      <Button variant="dark" size="sm">Ir a sección</Button>
+                      <Button variant="dark" size="sm">Ir a sección de {libro.seccion}</Button>
                     </Link>
                   </div>
                 </Card.Body>

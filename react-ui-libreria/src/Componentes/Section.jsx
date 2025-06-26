@@ -1,30 +1,40 @@
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
 
-export default function Section({ libros }) {
+export default function Section({ title, libros }) {
   return (
-    <main id="contenidoPrincipal">
+    <main className="contenido-principal">
+
       <section className="seccion-libros">
-        <Accordion defaultActiveKey="0">
-          {libros.map((libro, idx) => (
-            <Accordion.Item eventKey={String(idx)} key={libro.id}>
+        {libros.map((libro, idx) => (
+          <Accordion
+            key={libro.id}
+            defaultActiveKey={null}     
+            className="w-100"           
+          >
+            <Accordion.Item eventKey="0">
               <Accordion.Header>
-                {libro.titulo} - escrito por - {libro.autor}
+                {libro.titulo} — escrito por — {libro.autor}
               </Accordion.Header>
               <Accordion.Body>
+                {/* Portada */}
                 <img
                   src={libro.portada}
                   alt={libro.titulo}
-                  style={{ width: '50%', maxHeight: '300px', objectFit: 'cover', marginLeft: '100px' }}
-                  className="mb-3"
+                  className="img-fluid mb-3"
+                  style={{ borderRadius: '4px' }}
                 />
+                {/* Descripción */}
+                <p>{libro.descripcion}</p>
               </Accordion.Body>
             </Accordion.Item>
-          ))}
-        </Accordion>
+          </Accordion>
+        ))}
       </section>
     </main>
   );
 }
+
+
 
 
