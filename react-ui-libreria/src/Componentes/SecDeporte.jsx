@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from './Section';
-import deporte1Img from '../Imagenes/Resto/deportes.jpg';
-import deporte2Img from '../Imagenes/secDeporte/deporte2.jpg';
-import deporte3Img from '../Imagenes/secDeporte/deporte3.jpg';
-import deporte4Img from '../Imagenes/secDeporte/deporte4.jpg';
-import deporte5Img from '../Imagenes/secDeporte/deporte5.jpg';
-import deporte6Img from '../Imagenes/secDeporte/deporte6.jpg';
 
-export default function SeccionDeporte() {
-  return <Section title="Deporte" libros={librosDeporte} />;
+function SecDeporte() {
+  const [libros, setLibros] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/deporte')
+      .then(res => res.json())
+      .then(data => {
+        // Agrego la imagen usando require() basado en el id
+        const dataConImagen = data.map(libro => ({
+          ...libro,
+          portada: `/Imagenes/secDeporte/${libro.id}.jpg`
+        }));
+        setLibros(dataConImagen);
+      })
+      .catch(err => console.error('Error cargando deporte:', err));
+  }, []);
+
+  return <Section titulo="Deporte" libros={libros} />;
 }
 
-export const librosDeporte = [
-  {id: 'deporte1',titulo: 'El sueño de mi desvelo', autor: 'Antoni Daimiel',portada: deporte1Img, descripcion: 'Descripción bla bla bla', seccion: 'deporte'},
-  {id: 'deporte2',titulo: '100 Genios del balón',autor: 'Alberto Lati',portada: deporte2Img,descripcion: 'Descripción bla bla bla',seccion: 'deporte'},
-  {id: 'deporte3',titulo: 'Una vida demasiado corta',autor: 'Robert Enke',portada: deporte3Img,descripcion: 'Descripción bla bla bla',seccion: 'deporte'},
-  {id: 'deporte4',titulo: '101 Historia NBA',autor: 'Gonzalo Vázquez',portada: deporte4Img,descripcion: 'Descripción bla bla bla',seccion: 'deporte'},
-  {id: 'deporte5',titulo: 'La biblia del triatleta',autor: 'Joe Friel',portada: deporte5Img,descripcion: 'Descripción bla bla bla',seccion: 'deporte'},
-  {id: 'deporte6',titulo: 'El gran libro de los deportes',autor: 'Geronimo Stilton',portada: deporte6Img,descripcion: 'Descripción bla bla bla',seccion: 'deporte'}
-];
+export default SecDeporte;
+
+
 
 

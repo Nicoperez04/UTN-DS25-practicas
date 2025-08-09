@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from './Section';
 
-import infantil1Img from '../Imagenes/Resto/infantil.jpg';
-import infantil2Img from '../Imagenes/secInfantil/infantil2.jpg';
-import infantil3Img from '../Imagenes/secInfantil/infantil3.jpg';
-import infantil4Img from '../Imagenes/secInfantil/infantil4.jpg';
-import infantil5Img from '../Imagenes/secInfantil/infantil5.jpg';
-import infantil6Img from '../Imagenes/secInfantil/infantil6.jpg';
+function SecInfantil() {
+  // Estado para almacenar los libros de la sección infantil
+  const [libros, setLibros] = useState([]);
 
-export default function SeccionInfantil() {
-  return <Section title="Infantil" libros={librosInfantil} />;
+  // useEffect para cargar los libros de la sección infantil al montar el componente
+  useEffect(() => {
+    // Realizo la petición a la API para obtener los libros de infantil
+    fetch('http://localhost:3000/api/infantil')
+      .then(res => res.json()) // Convierto la respuesta a JSON
+      .then(data => { // Agrego la imagen usando require() basado en el id
+        const dataConImagen = data.map(libro => ({
+          ...libro,
+          portada: `/Imagenes/secInfantil/${libro.id}.jpg`
+        }));
+        setLibros(dataConImagen);
+      })
+      .catch(err => console.error('Error cargando infantil:', err));
+  }, []);
+
+  return <Section titulo="Infantil" libros={libros} />;
 }
 
-export const librosInfantil = [
-  {id: 'infantil1',titulo: 'El primer picnic de Jane',autor: 'Bella George',portada: infantil1Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'},
-  {id: 'infantil2',titulo: 'Fábulas',autor: 'Rosa Navarro',portada: infantil2Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'},
-  {id: 'infantil3',titulo: 'El Principito',autor: 'Antoine De Saint-Exupéry',portada: infantil3Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'},
-  {id: 'infantil4',titulo: 'Los Cinco',autor: 'Gud Blyton',portada: infantil4Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'},
-  {id: 'infantil5',titulo: 'Lina y sus nuevos amigos',autor: 'Gabriela Feliss',portada: infantil5Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'},
-  {id: 'infantil6',titulo: 'El libro de la Selva',autor: 'Royland Hoyland',portada: infantil6Img,descripcion: 'Descripción bla bla bla',seccion: 'infantil'}
-];
-
+export default SecInfantil;
 
 

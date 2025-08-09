@@ -9,10 +9,10 @@ import Header   from './Componentes/Header';
 import Menu     from './Componentes/Menu';     
 import Footer   from './Componentes/Footer';   
 import Home     from './Componentes/Home';     
-import SecFiccion,  { librosFiccion  } from './Componentes/SecFiccion';
-import SecDeporte,  { librosDeporte  } from './Componentes/SecDeporte';
-import SecInfantil, { librosInfantil } from './Componentes/SecInfantil';
-import SecHistoria, { librosHistoria } from './Componentes/SecHistoria';
+import SecFiccion from './Componentes/SecFiccion';
+import SecDeporte from './Componentes/SecDeporte';
+import SecInfantil from './Componentes/SecInfantil';
+import SecHistoria from './Componentes/SecHistoria';
 import Registro from './Componentes/Registro';
 import Contacto from './Componentes/Contacto';
 import Catalogo from './Componentes/Catalago';
@@ -22,13 +22,20 @@ export default function App() {
   //Estado del Toast
   const [showToast, setShowToast] = useState(true);
 
-  // Combina los arrays de cada seccion en un único array "catalogo"
-  const [catalogo, setCatalogo] = useState([
-    ...librosFiccion,   // libros definidos en SecFiccion.jsx
-    ...librosDeporte,   // libros definidos en SecDeporte.jsx
-    ...librosInfantil,  // libros definidos en SecInfantil.jsx
-    ...librosHistoria   // libros definidos en SecHistoria.jsx
-  ]);
+  const [catalogo, setCatalogo] = useState([]);
+
+      useEffect(() => {
+        Promise.all([
+          fetch('http://localhost:3000/api/ficcion').then(r => r.json()),
+          fetch('http://localhost:3000/api/deporte').then(r => r.json()),
+          fetch('http://localhost:3000/api/infantil').then(r => r.json()),
+        fetch('http://localhost:3000/api/historia').then(r => r.json())
+      ])
+      .then(([ficcion, deporte, infantil, historia]) => {
+        setCatalogo([...ficcion, ...deporte, ...infantil, ...historia]);
+      })
+      .catch(err => console.error('Error cargando catálogo:', err));
+    }, []);
 
   // Oculta el Toast automáticamente dsp de 5 segundos
   useEffect(() => {
