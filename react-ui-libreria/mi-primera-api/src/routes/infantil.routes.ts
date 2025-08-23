@@ -1,11 +1,19 @@
+// Router de INFANTIL
 import { Router } from 'express';
-import { obtenerLibrosInfantil } from '../controllers/infantil.controllers';
+import {
+  obtenerLibrosInfantil,
+  obtenerLibroInfantil,
+  crearLibroInfantil,
+  actualizarLibroInfantil,
+  eliminarLibroInfantil,
+} from '../controllers/infantil.controllers';
 
-// Creamos un router para las rutas de la sección Infantil
 const router = Router();
 
-// Ruta GET para listar todos los libros infantiles
-// Endpoint: /api/infantil
 router.get('/', obtenerLibrosInfantil);
+router.get('/:id', obtenerLibroInfantil);
+router.post('/', crearLibroInfantil);
+router.put('/:id', actualizarLibroInfantil);
+router.delete('/:id', eliminarLibroInfantil);
 
 export default router;

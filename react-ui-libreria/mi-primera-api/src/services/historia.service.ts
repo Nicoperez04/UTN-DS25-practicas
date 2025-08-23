@@ -1,57 +1,11 @@
-import { Book } from '../types/book.types';
-const BASE_URL = 'http://localhost:3000';
+import { CATS } from './book.service';
+import * as Book from './book.service';
+import { CreateBookRequest, UpdateBookRequest } from '../types/book.types';
 
-export const librosHistoria: Book[] = [
-  {
-    id: 'historia1',
-    titulo: 'Sapiens',
-    autor: 'Yuval Noah Harari',
-    portada: `${BASE_URL}/secHistoria/historia1.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  },
-  {
-    id: 'historia2',
-    titulo: 'Homo Deus',
-    autor: 'Yuval Noah Harari',
-    portada: `${BASE_URL}/secHistoria/historia2.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  },
-  {
-    id: 'historia3',
-    titulo: 'La Segunda Guerra Mundial',
-    autor: 'Antony Beevor',
-    portada: `${BASE_URL}/secHistoria/historia3.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  },
-  {
-    id: 'historia4',
-    titulo: 'Los Pilares de la Tierra',
-    autor: 'Ken Follett',
-    portada: `${BASE_URL}/secHistoria/historia4.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  },
-  {
-    id: 'historia5',
-    titulo: 'Breve Historia del Tiempo',
-    autor: 'Stephen Hawking',
-    portada: `${BASE_URL}/secHistoria/historia5.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  },
-  {
-    id: 'historia6',
-    titulo: 'Historia de dos ciudades',
-    autor: 'Charles Dickens',
-    portada: `${BASE_URL}/secHistoria/historia6.jpg`,
-    descripcion: 'Descripción bla bla bla',
-    seccion: 'historia'
-  }
-];
+const CAT = CATS.HISTORIA;
 
-export function getLibrosHistoria(): Book[] {
-  return librosHistoria;
-}
+export const getAll  = () => Book.getAllByCategoria(CAT);
+export const getById = (id: number) => Book.getById(id, CAT);
+export const create  = (data: CreateBookRequest) => Book.create(CAT, data);
+export const update  = (id: number, patch: UpdateBookRequest) => Book.update(id, CAT, patch);
+export const remove  = (id: number) => Book.remove(id, CAT);

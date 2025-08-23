@@ -1,11 +1,19 @@
+// Router de HISTORIA
 import { Router } from 'express';
-import { obtenerLibrosHistoria } from '../controllers/historia.controllers';
+import {
+  obtenerLibrosHistoria,
+  obtenerLibroHistoria,
+  crearLibroHistoria,
+  actualizarLibroHistoria,
+  eliminarLibroHistoria,
+} from '../controllers/historia.controllers';
 
-// Creamos un router para agrupar las rutas relacionadas con Historia
 const router = Router();
 
-// Ruta para obtener todos los libros de historia
-// GET /api/historia
 router.get('/', obtenerLibrosHistoria);
+router.get('/:id', obtenerLibroHistoria);
+router.post('/', crearLibroHistoria);
+router.put('/:id', actualizarLibroHistoria);
+router.delete('/:id', eliminarLibroHistoria);
 
 export default router;

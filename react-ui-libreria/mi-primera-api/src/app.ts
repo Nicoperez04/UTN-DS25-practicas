@@ -1,30 +1,56 @@
-import express from 'express';
+import 'dotenv/config';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
 
-// Importamos las rutas de cada sección
+// Routers por sección (el router NO hace lógica; solo enruta a controllers)
 import ficcionRoutes from './routes/ficcion.routes';
 import historiaRoutes from './routes/historia.routes';
 import deporteRoutes from './routes/deporte.routes';
 import infantilRoutes from './routes/infantil.routes';
 
 const app = express();
-const PORT = 3000;
 
-// Servir la carpeta de imágenes
-app.use('/imagenes', express.static(path.join(__dirname, '../public/imagenes')));
-// Middleware para permitir solicitudes desde el frontend
+// ---------- Middlewares globales ----------
+// Habilita llamadas desde el frontend (Vite/React en 5173, por ejemplo)
 app.use(cors());
-// Middleware para interpretar JSON
+
+// Parsea JSON del body. Si no está, req.body vendrá undefined.
 app.use(express.json());
 
-// Rutas del backend
-app.use('/api/ficcion', ficcionRoutes);
+const IMAGES_DIR = path.resolve(__dirname, '../public/imagenes');
+app.use('/imagenes', express.static(IMAGES_DIR));
+
+// ---------- Rutas de la API ----------
+// Prefijo /api para mantener contrato estable con el frontend
+app.use('/api/ficcion',  ficcionRoutes);
 app.use('/api/historia', historiaRoutes);
-app.use('/api/deporte', deporteRoutes);
+app.use('/api/deporte',  deporteRoutes);
 app.use('/api/infantil', infantilRoutes);
 
-// Iniciamos el servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+// Healthcheck simple para verificar que el server responde
+app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }));
+
+// 404 para cualquier ruta no definida (debe ir después de todas las rutas)
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({ error: 'Not Found' });
 });
+
+// ---------- Manejo centralizado de errores ----------
+// IMPORTANTE: este middleware va al final.
+// Los services lanzan errores con err.statusCode (400/404/...)
+// y acá los traducimos a una respuesta HTTP prolija.
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  const status = typeof err?.statusCode === 'number' ? err.statusCode : 500;
+  res.status(status).json({ error: err?.message ?? 'Internal Server Error' });
+});
+
+// Toma PORT de .env si existe; si no, usa 3000.
+// Number() evita problemas cuando PORT llega como string.
+const PORT = Number(process.env.PORT) || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 API running on http://localhost:${PORT}`);
+});
+
+export default app; // útil si luego querés testear la app sin levantar el server

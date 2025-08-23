@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Enum de categorias para filtrar por seccion
+enum Categoria {
+  DEPORTE
+  FICCION
+  HISTORIA
+  INFANTIL
+}
+
+// Modelo de Libro del front
+model Book {
+  id            Int @id @default(autoincrement())
+  titulo        String
+  autor         String
+  descripcion   String
+  categoria     Categoria
+  createdAt     DateTime @default(now())
+}
