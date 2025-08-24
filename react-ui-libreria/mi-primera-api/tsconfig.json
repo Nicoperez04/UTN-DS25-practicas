@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2020", //Versión de JavaScript a la que se compilará el código TypeScript
-    "module": "commonjs", //Formato de módulo que se utilizará en el código compilado
-    "outDir": "./dist", // Carpeta de salida para los archivos compilados
-    "rootDir": "./src", // Carpeta raíz de los archivos fuente
-    "strict": true, // chequeos estrictos de tipo
-    "esModuleInterop": true, // Permite import express from 'express'
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": ".",                   
+    "strict": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": ["src/**/*.ts", "prisma/**/*.ts"] 
 }

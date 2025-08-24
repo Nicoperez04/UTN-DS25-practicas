@@ -1,4 +1,4 @@
-// src/services/book.service.ts
+// src/services/book.service.ts 
 // -------------------------------------------------------------
 // Este service encapsula TODO el acceso a datos de "Book" con Prisma.
 // Las secciones (ficcion, deporte, historia, infantil) solo delegan en este service.
@@ -6,18 +6,18 @@
 import prisma from '../config/prisma';
 
 import type { Book as PrismaBook } from '../generated/prisma';
-import { Categoria as CategoriaEnum } from '../generated/prisma';
+import { Categoria as CategoriaEnum, $Enums } from '../generated/prisma';
 
 // Esto es segun chat gpt un truco de tipado robusto para el enum (evita diferencias entre versiones de Prisma)
-type TCategoria = (typeof CategoriaEnum)[keyof typeof CategoriaEnum];
+type TCategoria = $Enums.Categoria;
 
 import { CreateBookRequest, UpdateBookRequest } from '../types/book.types';
 
-/** Lista todos los libros de una categoría (para /api/ficcion, /api/deporte, etc.) */
+/** Lista todos los libros de una categoria (para /api/ficcion, /api/deporte, etc.) */
 export async function getAllByCategoria(cat: TCategoria): Promise<PrismaBook[]> {
   return prisma.book.findMany({
     where: { categoria: cat },
-    orderBy: { id: 'asc' }, // orden estable para el front
+    orderBy: { id: 'asc' }, 
   });
 }
 
@@ -34,7 +34,16 @@ export async function create(cat: TCategoria, data: CreateBookRequest): Promise<
     err.statusCode = 400;
     throw err;
   }
-  return prisma.book.create({ data: { ...data, categoria: cat, descripcion: data.descripcion ?? "" } });
+  // Prisma guardará NULL cuando no se envian (porque en el modelo son opcionales).
+  return prisma.book.create({
+    data: {
+      titulo: data.titulo,
+      autor: data.autor,
+      descripcion: data.descripcion ?? '', // opcional
+      portada: data.portada ?? '',         // opcional
+      categoria: cat,
+    },
+  });
 }
 
 /** Actualiza campos opcionales; primero confirmamos existencia en esa categoria */
@@ -55,6 +64,7 @@ export async function update(
       ...(patch.titulo      !== undefined ? { titulo:      patch.titulo } : {}),
       ...(patch.autor       !== undefined ? { autor:       patch.autor } : {}),
       ...(patch.descripcion !== undefined ? { descripcion: patch.descripcion } : {}),
+      ...(patch.portada     !== undefined ? { portada:     patch.portada } : {}), 
     },
   });
 }

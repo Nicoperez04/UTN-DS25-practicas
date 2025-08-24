@@ -28,7 +28,7 @@ app.use('/api/historia', historiaRoutes);
 app.use('/api/deporte',  deporteRoutes);
 app.use('/api/infantil', infantilRoutes);
 
-// Healthcheck simple para verificar que el server responde
+// Healthcheck simple para verificar que el server responde (comentario del copilot)
 app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }));
 
 // 404 para cualquier ruta no definida (debe ir después de todas las rutas)
@@ -38,15 +38,15 @@ app.use((_req: Request, res: Response) => {
 
 // ---------- Manejo centralizado de errores ----------
 // IMPORTANTE: este middleware va al final.
-// Los services lanzan errores con err.statusCode (400/404/...)
-// y acá los traducimos a una respuesta HTTP prolija.
+// Los services basicamentinho lanzan errores con err.statusCode (400/404/...)
+// y aca la idea es  los traducimos a una respuesta HTTP prolija.
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const status = typeof err?.statusCode === 'number' ? err.statusCode : 500;
   res.status(status).json({ error: err?.message ?? 'Internal Server Error' });
 });
 
 // Toma PORT de .env si existe; si no, usa 3000.
-// Number() evita problemas cuando PORT llega como string.
+// Number() evita problemas cuando PORT llega como string, si seria number pasa chill.
 const PORT = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, () => {

@@ -4,7 +4,8 @@
 export type CreateBookRequest = {
   titulo: string;
   autor: string;
-  descripcion?: string; // opcional como en tu form
+  descripcion?: string;
+  portada?: string;
 };
 
 export type UpdateBookRequest = Partial<CreateBookRequest>;
@@ -13,7 +14,7 @@ export type UpdateBookRequest = Partial<CreateBookRequest>;
 export type Seccion = 'ficcion' | 'deporte' | 'historia' | 'infantil';
 
 export type BookDTO = {
-  id: number;               // En DB es Int que va a ser autoincremental -> lo exponemos como number
+  id: number;               
   titulo: string;
   autor: string;
   descripcion?: string | null;

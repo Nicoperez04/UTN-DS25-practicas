@@ -24,5 +24,9 @@ model Book {
   autor         String
   descripcion   String
   categoria     Categoria
+  portada       String?
   createdAt     DateTime @default(now())
+
+  @@index([categoria])
+  @@unique([titulo, autor, categoria]) // ← esto es una regla que evita duplicar el mismo libro en la misma categoria
 }

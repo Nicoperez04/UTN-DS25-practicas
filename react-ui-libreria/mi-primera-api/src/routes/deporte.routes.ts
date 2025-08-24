@@ -1,17 +1,19 @@
-// ejemplo: src/routes/ficcion.routes.ts
+// Router de DEPORTE
 import { Router } from 'express';
 import {
-  obtenerLibrosFiccion,
-  obtenerLibroFiccion,
-  crearLibroFiccion,
-  actualizarLibroFiccion,
-  eliminarLibroFiccion,
-} from '../controllers/ficcion.controllers';
+  obtenerLibrosDeporte,
+  obtenerLibroDeporte,
+  crearLibroDeporte,
+  actualizarLibroDeporte,
+  eliminarLibroDeporte,
+} from '../controllers/deporte.controllers';
 
 const router = Router();
-router.get('/', obtenerLibrosFiccion); // obtiene todos los libros
-router.get('/:id', obtenerLibroFiccion); // aca solo uno
-router.post('/', crearLibroFiccion); // aca crea el libro
-router.put('/:id', actualizarLibroFiccion); // aca actualiza el libro
-router.delete('/:id', eliminarLibroFiccion); // aca elimina el libro
+
+router.get('/', obtenerLibrosDeporte);
+router.get('/:id', obtenerLibroDeporte);
+router.post('/', crearLibroDeporte);
+router.put('/:id', actualizarLibroDeporte);
+router.delete('/:id', eliminarLibroDeporte);
+
 export default router;

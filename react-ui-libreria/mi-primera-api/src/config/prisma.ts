@@ -1,8 +1,7 @@
 // src/config/prisma.ts
 import { PrismaClient } from "../generated/prisma"; 
-// ^ Importa desde la salida que definiste en el generator
 
-// Usamos un singleton para no abrir múltiples conexiones
+// Usamos un singleton para no abrir muchass conexiones
 const prisma = new PrismaClient({
   log: ['warn', 'error', 'query']
 });

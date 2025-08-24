@@ -6,7 +6,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "seed": "prisma db seed"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +28,7 @@
     "@types/node": "^24.2.0",
     "prisma": "^6.14.0",
     "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   }
 }
