@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -19,14 +19,25 @@ enum Categoria {
 
 // Modelo de Libro del front
 model Book {
-  id            Int @id @default(autoincrement())
-  titulo        String
-  autor         String
-  descripcion   String
-  categoria     Categoria
-  portada       String?
-  createdAt     DateTime @default(now())
+  id          Int       @id @default(autoincrement())
+  titulo      String
+  autor       String
+  descripcion String?
+  categoria   Categoria
+  portada     String?
+  createdAt   DateTime  @default(now())
 
-  @@index([categoria])
+  authorId Int?
+  author   Author? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
   @@unique([titulo, autor, categoria]) // ← esto es una regla que evita duplicar el mismo libro en la misma categoria
+  @@index([categoria])
+  @@index([authorId])
+}
+
+// Modelo de Autor para poder implementar las relaciones, en ingles para que no se me choque todo
+model Author {
+  id     Int    @id @default(autoincrement())
+  nombre String @unique
+  books  Book[]
 }
