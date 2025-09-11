@@ -11,9 +11,14 @@ import infantilRoutes from './routes/infantil.routes';
 
 const app = express();
 
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+}
+
 // ---------- Middlewares globales ----------
 // Habilita llamadas desde el frontend (Vite/React en 5173, por ejemplo)
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Parsea JSON del body. Si no está, req.body vendrá undefined.
 app.use(express.json());
