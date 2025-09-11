@@ -3,17 +3,25 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
 
+// Rutas de autenticacion
+import authRoutes from './routes/auth.routes';
+
 // Routers por sección (el router NO hace lógica; solo enruta a controllers)
 import ficcionRoutes from './routes/ficcion.routes';
 import historiaRoutes from './routes/historia.routes';
 import deporteRoutes from './routes/deporte.routes';
 import infantilRoutes from './routes/infantil.routes';
 
+// Router para usuarios
+import { userRoutes } from './routes/user.routes';
+
 const app = express();
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
+  methods: ['GET', 'POST' , 'PUT', 'DELETE' , 'OPTIONS' ],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }
 
 // ---------- Middlewares globales ----------
@@ -26,12 +34,17 @@ app.use(express.json());
 const IMAGES_DIR = path.resolve(__dirname, '../public/imagenes');
 app.use('/imagenes', express.static(IMAGES_DIR));
 
+// --- Auth
+app.use('/api/auth', authRoutes);
+
 // ---------- Rutas de la API ----------
 // Prefijo /api para mantener contrato estable con el frontend
 app.use('/api/ficcion',  ficcionRoutes);
 app.use('/api/historia', historiaRoutes);
 app.use('/api/deporte',  deporteRoutes);
 app.use('/api/infantil', infantilRoutes);
+
+app.use('/api/users', userRoutes);
 
 // Healthcheck simple para verificar que el server responde (comentario del copilot)
 app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }));

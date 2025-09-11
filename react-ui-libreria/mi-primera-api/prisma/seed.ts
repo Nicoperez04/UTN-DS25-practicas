@@ -9,6 +9,7 @@
 
 import 'dotenv/config';
 import { PrismaClient, Categoria as CATS, $Enums } from '../src/generated/prisma';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -41,6 +42,26 @@ async function seedCategoria(cat: TCategoria, libros: SeedLibro[]
 }
 
 async function main() {
+  
+  // ---------------------------
+  // ADMIN
+  // ---------------------------
+  const email = 'admin@libreria.test';
+  const plain = 'admin123'; // cámbialo luego
+  const hash = await bcrypt.hash(plain, 10);
+
+  // upsert: crea si no existe, actualiza si existe
+  await prisma.user.upsert({
+    where: { email },
+    update: { passwordHash: hash, role: 'ADMIN', name: 'Administrador' },
+    create: {
+      email,
+      passwordHash: hash,
+      role: 'ADMIN',
+      name: 'Administrador',
+    },
+  });
+
   // ---------------------------
   // FICCION
   // ---------------------------

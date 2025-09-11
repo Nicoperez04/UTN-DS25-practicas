@@ -41,3 +41,23 @@ model Author {
   nombre String @unique
   books  Book[]
 }
+
+// Roles para autorizacion basica en la API
+enum Rol {
+  ADMIN
+  USER
+}
+
+// Usuario del sistema para login con JWT
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  email        String    @unique
+  passwordHash String
+  role         Rol       @default(USER)
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([role])  
+}
