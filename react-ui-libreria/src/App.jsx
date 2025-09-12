@@ -1,4 +1,4 @@
-
+// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toast } from 'react-bootstrap';       
@@ -17,6 +17,7 @@ import Registro from './Componentes/Registro';
 import Contacto from './Componentes/Contacto';
 import Catalogo from './Componentes/Catalago';
 import AgregarLibro from './Componentes/AgregarLibro';
+import Login from './Componentes/Login';
 
 export default function App() {
   //Estado del Toast
@@ -88,6 +89,9 @@ export default function App() {
         }/>
         {/* Contacto*/}
         <Route path="/contacto" element={<Contacto />} />
+
+        {/* Login */} 
+        <Route path="/login" element={<Login />} />
       </Routes>
 
       {/*Footer aparece siempre tambien */}
