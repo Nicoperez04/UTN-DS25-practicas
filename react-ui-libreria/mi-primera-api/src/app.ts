@@ -17,16 +17,27 @@ import { userRoutes } from './routes/user.routes';
 
 const app = express();
 
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+const ALLOWED_ORIGINS = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
+const corsOptions: cors.CorsOptions = {
+  origin(origin, callback) {
+    // Permitir requests sin 'Origin' (Postman, curl) y mismo origen
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
-  methods: ['GET', 'POST' , 'PUT', 'DELETE' , 'OPTIONS' ],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 // ---------- Middlewares globales ----------
 // Habilita llamadas desde el frontend (Vite/React en 5173, por ejemplo)
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 // Parsea JSON del body. Si no está, req.body vendrá undefined.
 app.use(express.json());
