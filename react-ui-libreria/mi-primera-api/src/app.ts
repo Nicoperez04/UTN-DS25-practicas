@@ -37,7 +37,6 @@ const corsOptions: cors.CorsOptions = {
 // ---------- Middlewares globales ----------
 // Habilita llamadas desde el frontend (Vite/React en 5173, por ejemplo)
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
 
 // Parsea JSON del body. Si no está, req.body vendrá undefined.
 app.use(express.json());
