@@ -24,6 +24,7 @@ export default function Menu() {
         <li><Link to="/registro"><PencilSquare /> Registrarse</Link></li>
         <li><Link to="/contacto"><EnvelopeFill /> Contacto</Link></li>
         <li><Link to="/login"><EnvelopeFill /> Login</Link></li>
+        <li><Link to="/test-api"><EnvelopeFill /> Test API</Link></li>
       </ul>
     </nav>
   );

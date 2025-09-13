@@ -18,6 +18,7 @@ import Contacto from './Componentes/Contacto';
 import Catalogo from './Componentes/Catalago';
 import AgregarLibro from './Componentes/AgregarLibro';
 import Login from './Componentes/Login';
+import TestApi from './Componentes/TestApi';
 
 export default function App() {
   //Estado del Toast
@@ -92,6 +93,8 @@ export default function App() {
 
         {/* Login */} 
         <Route path="/login" element={<Login />} />
+        {/* Test API */}
+        <Route path="/test-api" element={<TestApi />} />
       </Routes>
 
       {/*Footer aparece siempre tambien */}
