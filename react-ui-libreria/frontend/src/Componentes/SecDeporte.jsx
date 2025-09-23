@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from './Section';
+import { http } from '../api/http';
 
-function SecDeporte() {
+export default function SecDeporte() {
   const [libros, setLibros] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/deporte')
-      .then(res => res.json())
-      .then(data => {
-        // Agrego la imagen usando require() basado en el id
-        const dataConImagen = data.map(libro => ({
-          ...libro,
-          portada: `/Imagenes/secDeporte/${libro.id}.jpg`
-        }));
-        setLibros(dataConImagen);
-      })
-      .catch(err => console.error('Error cargando deporte:', err));
+    let cancelled = false;
+    http('/libros?categoria=DEPORTE&pageSize=100')
+      .then(r => (Array.isArray(r?.data) ? r.data : Array.isArray(r) ? r : []))
+      .then(list => { if (!cancelled) setLibros(list); })
+      .catch(() => { if (!cancelled) setError('No se pudo cargar la sección Deporte'); });
+
+    return () => { cancelled = true; };
   }, []);
 
+  if (error) return <p className="text-danger">{error}</p>;
   return <Section titulo="Deporte" libros={libros} />;
 }
-
-export default SecDeporte;
-
-
-
-

@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from './Section';
+import { http } from '../api/http';
 
-function SecInfantil() {
-  // Estado para almacenar los libros de la sección infantil
+export default function SecInfantil() {
   const [libros, setLibros] = useState([]);
+  const [error, setError] = useState('');
 
-  // useEffect para cargar los libros de la sección infantil al montar el componente
   useEffect(() => {
-    // Realizo la petición a la API para obtener los libros de infantil
-    fetch('http://localhost:3000/api/infantil')
-      .then(res => res.json()) // Convierto la respuesta a JSON
-      .then(data => { // Agrego la imagen usando require() basado en el id
-        const dataConImagen = data.map(libro => ({
-          ...libro,
-          portada: `/Imagenes/secInfantil/${libro.id}.jpg`
-        }));
-        setLibros(dataConImagen);
-      })
-      .catch(err => console.error('Error cargando infantil:', err));
+    let cancelled = false;
+
+    http('/libros?categoria=INFANTIL&pageSize=100')
+      .then(r => (Array.isArray(r?.data) ? r.data : Array.isArray(r) ? r : []))
+      .then(list => { if (!cancelled) setLibros(list); })
+      .catch(() => { if (!cancelled) setError('No se pudo cargar la sección Infantil'); });
+
+    return () => { cancelled = true; };
   }, []);
 
+  if (error) return <p className="text-danger">{error}</p>;
   return <Section titulo="Infantil" libros={libros} />;
 }
-
-export default SecInfantil;
-
-

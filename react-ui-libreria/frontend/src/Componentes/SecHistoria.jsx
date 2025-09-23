@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from './Section';
+import { http } from '../api/http';
 
-function SecHistoria() {
+export default function SecHistoria() {
   const [libros, setLibros] = useState([]);
+  const [error, setError] = useState('');
 
-  // Estado para almacenar los libros de historia
   useEffect(() => {
-    // Realizo la petición a la API para obtener los libros de historia
-    fetch('http://localhost:3000/api/historia')
-      .then(res => res.json()) // Convierto la respuesta a JSON
-      .then(data => {
-        const dataConImagen = data.map(libro => ({
-          ...libro,
-          portada: `/Imagenes/secHistoria/${libro.id}.jpg`
-        }));
-        setLibros(dataConImagen);
-      })
-      .catch(err => console.error('Error cargando historia:', err));
+    let cancelled = false;
+
+    http('/libros?categoria=HISTORIA&pageSize=100')
+      .then(r => (Array.isArray(r?.data) ? r.data : Array.isArray(r) ? r : []))
+      .then(list => { if (!cancelled) setLibros(list); })
+      .catch(() => { if (!cancelled) setError('No se pudo cargar la sección Historia'); });
+
+    return () => { cancelled = true; };
   }, []);
 
-   // Renderizo la sección usando el componente Section
+  if (error) return <p className="text-danger">{error}</p>;
   return <Section titulo="Historia" libros={libros} />;
 }
-
-export default SecHistoria;
-

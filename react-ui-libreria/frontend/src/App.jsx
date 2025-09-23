@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toast } from 'react-bootstrap';       
 import './estilos.css';                       
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { http } from './api/http';
 
 import Header   from './Componentes/Header';   
 import Menu     from './Componentes/Menu';     
@@ -26,18 +27,21 @@ export default function App() {
 
   const [catalogo, setCatalogo] = useState([]);
 
-      useEffect(() => {
-        Promise.all([
-          fetch('http://localhost:3000/api/ficcion').then(r => r.json()),
-          fetch('http://localhost:3000/api/deporte').then(r => r.json()),
-          fetch('http://localhost:3000/api/infantil').then(r => r.json()),
-        fetch('http://localhost:3000/api/historia').then(r => r.json())
-      ])
-      .then(([ficcion, deporte, infantil, historia]) => {
-        setCatalogo([...ficcion, ...deporte, ...infantil, ...historia]);
-      })
-      .catch(err => console.error('Error cargando catálogo:', err));
-    }, []);
+  useEffect(() => {
+    // 1) Endpoints actuales por sección
+    const endpoints = ['/ficcion', '/deporte', '/infantil', '/historia'];
+
+    // 2) Traemos todo en paralelo y normalizamos la respuesta a array
+    Promise.all(
+      endpoints.map(p =>
+        http(p)
+          .then(r => Array.isArray(r) ? r : (Array.isArray(r?.data) ? r.data : []))
+          .catch(() => []) // si falla uno, seguimos con los demás
+      )
+    )
+    .then(arrays => setCatalogo(arrays.flat()))
+    .catch(err => console.error('Error cargando catálogo:', err));
+  }, []);
 
   // Oculta el Toast automáticamente dsp de 5 segundos
   useEffect(() => {

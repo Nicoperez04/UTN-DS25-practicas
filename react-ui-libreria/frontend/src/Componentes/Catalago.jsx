@@ -13,12 +13,14 @@ export default function Catalogo({ catalogo }) {
   // Estado para el texto de búsqueda
   const [busqueda, setBusqueda] = useState('');
 
-  // Filtrado por título, autor o sección (ignorando mayúsculas/minúsculas)
-  const filtrados = catalogo.filter(libro =>
-    libro.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
-    libro.autor.toLowerCase().includes(busqueda.toLowerCase()) ||
-    libro.seccion.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  const q = busqueda.toLowerCase().trim();
+
+  const filtrados = catalogo.filter((libro) => {
+    const t = (libro.titulo ?? '').toLowerCase();
+    const a = (libro.autor ?? '').toLowerCase();
+    const s = (libro.seccion ?? libro.genero ?? '').toLowerCase(); // por si tu schema usa 'genero'
+    return !q || t.includes(q) || a.includes(q) || s.includes(q);
+  });
 
   return (
     <main className="contenido-principal">
@@ -40,9 +42,7 @@ export default function Catalogo({ catalogo }) {
             <BloqueTema
               key={libro.id}
               {...libro}
-              // 🔹 Esto asegura que la ruta de la imagen sea correcta.
-              // Si la imagen ya es una URL completa, se usa tal cual.
-              // Si es solo un nombre o ruta parcial, se le antepone el backend.
+             
               portada={
                 libro.portada?.startsWith('http')
                   ? libro.portada

@@ -6,14 +6,13 @@ import path from 'path';
 // Rutas de autenticacion
 import authRoutes from './routes/auth.routes';
 
-// Routers por sección (el router NO hace lógica; solo enruta a controllers)
-import ficcionRoutes from './routes/ficcion.routes';
-import historiaRoutes from './routes/historia.routes';
-import deporteRoutes from './routes/deporte.routes';
-import infantilRoutes from './routes/infantil.routes';
+// Router para libros
+import { booksRouter } from './routes/books.routes';
 
 // Router para usuarios
 import { userRoutes } from './routes/user.routes';
+
+import { legacySectionsRouter } from './routes/legacy.sections.routes';
 
 const app = express();
 
@@ -41,18 +40,23 @@ app.use(cors(corsOptions));
 // Parsea JSON del body. Si no está, req.body vendrá undefined.
 app.use(express.json());
 
-const IMAGES_DIR = path.resolve(__dirname, '../public/imagenes');
-app.use('/imagenes', express.static(IMAGES_DIR));
+const IMGS_DIR = process.env.IMGS_DIR || '/imagenes';
+app.use(
+  '/imagenes',
+  express.static(IMGS_DIR, {
+    fallthrough: false,
+    immutable: true,
+    maxAge: '1d', // cachea en prod
+  })
+);
 
 // --- Auth
 app.use('/api/auth', authRoutes);
 
 // ---------- Rutas de la API ----------
 // Prefijo /api para mantener contrato estable con el frontend
-app.use('/api/ficcion',  ficcionRoutes);
-app.use('/api/historia', historiaRoutes);
-app.use('/api/deporte',  deporteRoutes);
-app.use('/api/infantil', infantilRoutes);
+app.use('/api', legacySectionsRouter);
+app.use('/api',  booksRouter);
 
 app.use('/api/users', userRoutes);
 
@@ -79,6 +83,11 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, () => {
   console.log(`🚀 API running on http://localhost:${PORT}`);
+});
+
+app.use((err: any, _req: any, res: any, _next: any) => {
+  console.error('Unhandled error:', err);
+  res.status(err?.status ?? 500).json({ error: err?.message ?? 'Internal Server Error' });
 });
 
 export default app; // útil si luego querés testear la app sin levantar el server
