@@ -1,55 +1,58 @@
+// src/Componentes/AgregarLibro.jsx
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Toast } from 'react-bootstrap';
 
+// 1) RHF + Yup
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { libroSchema } from '../validations/libroSchema';
+
 export default function AgregarLibro({ onAgregar }) {
-  // Estado de los campos del formulario
-  const [datos, setDatos] = useState({
-    titulo: '',
-    autor: '',
-    descripcion: ''
-  });
-  
-  const [filePortada, setFilePortada] = useState(null); //La imagen y la preview
-  const [previewPortada, setPreviewPortada] = useState(''); //Para la portada
-  const [showToast, setShowToast] = useState(false); //Para el toast
+  const [showToast, setShowToast] = useState(false);
   const [ultimo, setUltimo] = useState(null);
+  const [previewPortada, setPreviewPortada] = useState(''); // mantenemos preview separada por UX
 
-  // Actualiza texto en los inputs
-  const handleInputChange = (campo, valor) => {
-    setDatos(prev => ({ ...prev, [campo]: valor }));
-  };
+  // 2) RHF con Yup: centralizamos validación
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    resolver: yupResolver(libroSchema),
+    defaultValues: { titulo: '', autor: '', descripcion: '', portada: null },
+    mode: 'onTouched',
+  });
 
-  // Captura el archivo de imagen y genera preview
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFilePortada(file);
+  // 3) Actualizamos preview cuando el usuario selecciona archivo
+  const archivo = watch('portada'); // file input controlado por RHF
+  React.useEffect(() => {
+    if (archivo && archivo instanceof File) {
       const reader = new FileReader();
       reader.onloadend = () => setPreviewPortada(reader.result);
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(archivo);
     } else {
-      setFilePortada(null);
       setPreviewPortada('');
     }
-  };
+  }, [archivo]);
 
-  // Maneja el tema del envio del formulario del libro argegado
-  const handleSubmit = e => {
-    e.preventDefault();
-    const portadaFinal = previewPortada || 'https://via.placeholder.com/150'; // esto por si no sube nada
+  // 4) Submit validado: armamos objeto libro y lo enviamos arriba
+  const onSubmit = (data) => {
+    // Si hay preview, la usamos como portada; si no, placeholder (como tenías)
+    const portadaFinal = previewPortada || 'https://via.placeholder.com/150';
     const nuevo = {
       id: `libro-${Date.now()}`,
-      titulo: datos.titulo,
-      autor: datos.autor,
-      descripcion: datos.descripcion,
-      portada: portadaFinal
+      titulo: data.titulo.trim(),
+      autor: data.autor.trim(),
+      descripcion: (data.descripcion || '').trim(),
+      portada: portadaFinal,
     };
-    onAgregar(nuevo); // Esto lo agrega al catalogo para que se vea, no lo agregue en las secciones
-    setUltimo(nuevo);             
-    setDatos({ titulo: '', autor: '', descripcion: '' });
-    setFilePortada(null);
+    onAgregar(nuevo);       // agregamos al catálogo de la app
+    setUltimo(nuevo);
+    setShowToast(true);
+    reset();                // limpiamos el formulario y preview
     setPreviewPortada('');
-    setShowToast(true);           
   };
 
   return (
@@ -63,17 +66,34 @@ export default function AgregarLibro({ onAgregar }) {
                   <h2 className="mb-0">Agregar Nuevo Libro</h2>
                 </Card.Header>
                 <Card.Body>
-                  <Form onSubmit={handleSubmit}>
-                    {/* Subida de imagen */}
+                  {/* 5) RHF: validación previa a onSubmit */}
+                  <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+                    {/* Portada (opcional) */}
                     <Form.Group controlId="portada" className="mb-3">
                       <Form.Label>Portada (opcional)</Form.Label>
                       <Form.Control
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange}
+                        aria-invalid={!!errors.portada || undefined}
+                        aria-describedby="portada-error"
+                        // RHF registra el input; tomamos el primer archivo
+                        {...register('portada')}
+                        onChange={(e) => {
+                          const f = e.target.files?.[0] || null;
+                          // Pasamos el File a RHF; manejarlo así mantiene compatibilidad
+                          const ev = { target: { name: 'portada', value: f } };
+                          register('portada').onChange(ev);
+                        }}
+                        className={errors.portada ? 'input-error' : ''}
                       />
+                      {errors.portada && (
+                        <div id="portada-error" className="field-error">
+                          {errors.portada.message}
+                        </div>
+                      )}
                     </Form.Group>
-                    {/* Vista previa de la imagen que subio */}
+
+                    {/* Vista previa */}
                     {previewPortada && (
                       <div className="text-center mb-3">
                         <img
@@ -84,16 +104,22 @@ export default function AgregarLibro({ onAgregar }) {
                       </div>
                     )}
 
-                    {/* Titulo */}
+                    {/* Título */}
                     <Form.Group controlId="titulo" className="mb-3">
                       <Form.Label>Título</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Título del libro"
-                        value={datos.titulo}
-                        onChange={e => handleInputChange('titulo', e.target.value)}
-                        required
+                        aria-invalid={!!errors.titulo || undefined}
+                        aria-describedby="titulo-error"
+                        {...register('titulo')}
+                        className={errors.titulo ? 'input-error' : ''}
                       />
+                      {errors.titulo && (
+                        <div id="titulo-error" className="field-error">
+                          {errors.titulo.message}
+                        </div>
+                      )}
                     </Form.Group>
 
                     {/* Autor */}
@@ -102,27 +128,44 @@ export default function AgregarLibro({ onAgregar }) {
                       <Form.Control
                         type="text"
                         placeholder="Autor del libro"
-                        value={datos.autor}
-                        onChange={e => handleInputChange('autor', e.target.value)}
-                        required
+                        aria-invalid={!!errors.autor || undefined}
+                        aria-describedby="autor-error"
+                        {...register('autor')}
+                        className={errors.autor ? 'input-error' : ''}
                       />
+                      {errors.autor && (
+                        <div id="autor-error" className="field-error">
+                          {errors.autor.message}
+                        </div>
+                      )}
                     </Form.Group>
 
-                    {/* Descripcion*/}
+                    {/* Descripción */}
                     <Form.Group controlId="descripcion" className="mb-4">
                       <Form.Label>Descripción</Form.Label>
                       <Form.Control
                         as="textarea"
                         rows={3}
                         placeholder="Breve sinopsis (opcional)"
-                        value={datos.descripcion}
-                        onChange={e => handleInputChange('descripcion', e.target.value)}
+                        aria-invalid={!!errors.descripcion || undefined}
+                        aria-describedby="descripcion-error"
+                        {...register('descripcion')}
+                        className={errors.descripcion ? 'input-error' : ''}
                       />
+                      {errors.descripcion && (
+                        <div id="descripcion-error" className="field-error">
+                          {errors.descripcion.message}
+                        </div>
+                      )}
                     </Form.Group>
 
-                    {/* Boton para enviar el nuevo libro como agregado*/}
+                    {/* Enviar */}
                     <div className="d-grid">
-                      <Button type="submit" style={{ backgroundColor: '#35113d', color: '#fff' }}>
+                      <Button
+                        type="submit"
+                        style={{ backgroundColor: '#35113d', color: '#fff' }}
+                        disabled={isSubmitting}
+                      >
                         Agregar Libro
                       </Button>
                     </div>
@@ -134,7 +177,7 @@ export default function AgregarLibro({ onAgregar }) {
         </Container>
       </main>
 
-      {/* Toast que aparece al costadito cuando lo agregas */}
+      {/* Toast de confirmación */}
       <Toast
         show={showToast}
         onClose={() => setShowToast(false)}
@@ -146,18 +189,20 @@ export default function AgregarLibro({ onAgregar }) {
           <strong className="me-auto">Nuevo Libro</strong>
         </Toast.Header>
         <Toast.Body className="d-flex align-items-center">
-          <img
-            src={ultimo?.portada}
-            alt="Portada mini"
-            style={{
-              width: '40px',
-              height: '40px',
-              objectFit: 'cover',
-              borderRadius: '4px',
-              marginRight: '0.5rem'
-            }}
-          />
-          <span>{ultimo?.titulo} agregado</span> {/**Esto no se si funciona */}
+          {ultimo?.portada && (
+            <img
+              src={ultimo.portada}
+              alt="Portada mini"
+              style={{
+                width: '40px',
+                height: '40px',
+                objectFit: 'cover',
+                borderRadius: '4px',
+                marginRight: '0.5rem'
+              }}
+            />
+          )}
+          <span>{ultimo?.titulo} agregado</span>
         </Toast.Body>
       </Toast>
     </>

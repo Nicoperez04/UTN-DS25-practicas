@@ -200,3 +200,15 @@ footer {
 .bloque-tema a:hover {
   text-decoration: underline;
 }
+
+/* --- RHF + Yup --- */
+.input-error {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220,53,69,.1);
+}
+
+.field-error {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #dc3545;
+}
