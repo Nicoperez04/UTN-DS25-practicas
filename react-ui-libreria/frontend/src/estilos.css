@@ -212,3 +212,145 @@ footer {
   font-size: 0.9rem;
   color: #dc3545;
 }
+
+/* === LOGIN === */
+.login-bg {
+  position: relative;
+  background-image: url('./Imagenes/Resto/login.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Capa oscura sutil para mejorar el contraste del card */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 20, 0.45); /* tono oscuro con transparencia */
+}
+
+/* Card centrada y con estilo */
+.login-card {
+  position: relative;         /* sobre el overlay */
+  width: min(92vw, 460px);
+  border: none;
+  border-radius: 18px;        /* bordes suaves */
+  overflow: hidden;           /* redondeo en header */
+  backdrop-filter: blur(2px); /* leve “glass” para elegancia */
+}
+
+/* Header morado tipo Federala */
+.login-card__header {
+  background-color: #35113d;  /* tu morado */
+  color: #fff;
+  padding: 14px 18px;
+}
+
+/* Botón principal del login */
+.login-btn {
+  background-color: #a500ca !important;
+  border-color: #2e2c2f !important;
+  font-weight: 600;
+}
+
+/* Ajustes de InputGroup para el botón “Ver/Ocultar” */
+.input-group > .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* ===== HERO con tu imagen ===== */
+.auth-hero {
+  position: relative;
+  min-height: 100dvh;                 /* ocupa alto real de viewport */
+  background-size: cover;
+  background-position: center 35%;    /* centra y sube un toque la imagen */
+  background-repeat: no-repeat;
+  background-attachment: fixed;       /* leve efecto parallax en desktop */
+  padding: 6vh 16px;
+}
+
+/* Overlay degradado para contraste y foco */
+.auth-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(0,0,0,.15) 0%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.65) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45));
+  pointer-events: none;
+}
+.auth-hero.d-flex.align-items-center.justify-content-center {
+  margin-top: -80px;
+}
+
+/* ===== CARD “pro” (glass + borde degradado + sombra suave) ===== */
+.auth-card {
+  position: relative;
+  width: min(92vw, 520px);
+  border-radius: 20px;
+  /* Glass suave: */
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  /* Borde degradado sutil con pseudo-elemento */
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow:
+    0 28px 50px rgba(0,0,0,.35),
+    0 8px 18px rgba(0,0,0,.18);
+}
+.auth-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;                        /* cubre el borde */
+  z-index: -1;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #ffffff, #e8dcf0, #c79dd9, #ffffff);
+  filter: blur(6px);
+  opacity: .35;
+}
+
+/* Título en pastilla morada */
+.auth-title {
+  display: center;
+  margin-left: 130px;
+  font-size: larger;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* Inputs XL y focus ring moderno */
+.form-control-xl {
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid #dcd7e2;
+  background: #fff;
+}
+.form-control-xl:focus {
+  border-color: #8a5aa0; /* tono morado suave */
+  box-shadow: 0 0 0 0.2rem rgba(138, 90, 160, .15);
+}
+
+/* Botón de ojo integrado al input */
+.btn-eye {
+  color: #d0d0d0;
+  background:transparent;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Botón principal consistente con marca */
+.auth-btn {
+  background-color: #35113d !important;
+  border-color: #35113d !important;
+  font-weight: 700;
+  padding-block: 12px;
+  border-radius: 14px;
+}
+
+/* Responsive finos */
+@media (max-width: 480px) {
+  .auth-card { width: 94vw; border-radius: 18px; }
+  .auth-title { font-size: .95rem; }
+}
