@@ -1,49 +1,49 @@
 // src/Componentes/Login.jsx
 import React, { useState } from 'react';
 import { Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { login } from '../services/auth';
-import { setToken } from '../helpers/auth';
-// 1) RHF + Yup
+// Qué y por qué: usamos el AuthContext (alineado al PDF) para no duplicar lógica de sesión
+import { useAuth } from '../contexts/AuthContext';
+// Validación declarativa: RHF + Yup
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../validations/loginSchema';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  // 2) Estado de feedback general (no de campos): loading / ok / error de credenciales
-  const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState(false);
+  // Estado de feedback general (no de campos)
   const [error, setError] = useState('');
+  const [ok, setOk] = useState(false);
 
-  // 3) useForm conectado a Yup: centralizamos la validación
+  // AuthContext: expone login/logout/isAuthenticated/user (como en el PDF)
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  // RHF: conectamos el formulario al esquema Yup
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset
   } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
+      // Por qué: ponemos credenciales demo para acelerar pruebas
       email: 'admin@libreria.test',
       password: 'admin123',
     },
-    mode: 'onTouched', // muestra errores al tocar y salir del campo (buena UX)
+    mode: 'onTouched', // Muestra errores al tocar/salir del campo (mejor UX)
   });
 
-  // 4) Envío validado: si pasa el schema, llamamos al servicio de login
+  // Envío validado: si pasa Yup, llamamos al login del Context
   const onSubmit = async ({ email, password }) => {
     setError('');
     setOk(false);
-    setLoading(true);
-    try {
-      const { token, user } = await login(email, password);
-      setToken(token);
-      localStorage.setItem('auth', JSON.stringify({ token, user })); // mismo patrón que el profe
+    const result = await login(email, password);
+    if (result?.success) {
       setOk(true);
-    } catch (err) {
-      // Mouestra aca el error global si credenciales son inválidas u otro problema
-      setError(err?.message || 'Error al iniciar sesión');
-    } finally {
-      setLoading(false);
+      // Por qué: al loguear, llevamos al área privada (home)
+      navigate('/home', { replace: true });
+    } else {
+      setError(result?.error || 'Error al iniciar sesión');
     }
   };
 
@@ -54,14 +54,17 @@ export default function Login() {
           <strong>Iniciar sesión</strong>
         </Card.Header>
         <Card.Body>
+          {/* Error global (credenciales inválidas, etc.) */}
           {error && <Alert variant="danger" role="alert">{error}</Alert>}
+
+          {/* Mensaje de éxito (breve) */}
           {ok && (
             <Alert variant="success" className="mb-3" role="status">
               Sesión iniciada correctamente.
             </Alert>
           )}
 
-          {/* RHF: handleSubmit hace la validación con Yup antes de llamar a onSubmit */}
+          {/* RHF: handleSubmit valida con Yup antes de llamar a onSubmit */}
           <Form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="loginEmail">
               <Form.Label>Email</Form.Label>
@@ -70,9 +73,7 @@ export default function Login() {
                 placeholder="tu@email.com"
                 aria-invalid={!!errors.email || undefined}
                 aria-describedby="email-error"
-                // RHF registra y controla el input
                 {...register('email')}
-                // feedback visual de error
                 className={errors.email ? 'input-error' : ''}
               />
               {errors.email && (
@@ -101,11 +102,11 @@ export default function Login() {
             <div className="d-grid">
               <Button
                 type="submit"
-                disabled={loading || isSubmitting}
+                disabled={isSubmitting}
                 variant="primary"
                 style={{ backgroundColor: '#35113d' }}
               >
-                {loading || isSubmitting ? <Spinner size="sm" animation="border" /> : 'Ingresar'}
+                {isSubmitting ? <Spinner size="sm" animation="border" /> : 'Ingresar'}
               </Button>
             </div>
           </Form>

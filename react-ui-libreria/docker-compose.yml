@@ -22,6 +22,7 @@ services:
       - "5173:5173"
     depends_on:
       - backend
+    command: npm start
     volumes:
       - ./frontend:/app          # hot reload del código
       - /app/node_modules        # evita pisar node_modules del contenedor
@@ -42,6 +43,9 @@ services:
       - ./backend:/app
       - /app/node_modules
       - ./frontend/src/Imagenes:/imagenes:ro
+    environment:
+      - NODE_ENV=development
+      - IMGS_DIR=/imagenes
     networks:
       - app-network
 
