@@ -7,7 +7,7 @@ const libroInfantil = [{
   id: 'infantil',
   titulo: 'El primer picnic de Jane',
   autor: 'Bella George',
-  portada: require('../Imagenes/secInfantil/infantil1.jpg'),
+  portada: '../Imagenes/secInfantil/infantil1.jpg',
   descripcion: 'Descripción genérica',
   seccion: 'Infantil'
 }];
@@ -16,7 +16,7 @@ const libroFiccion = [{
   id: 'ficcion1',
   titulo: 'El Problema de los 3 Cuerpos',
   autor: 'Cixin Liu',
-  portada: require('../Imagenes/secFiccion/ficcion1.jpg'),
+  portada: '../Imagenes/secFiccion/ficcion1.jpg',
   descripcion: 'El Problema de los 3 cuerpos',
   seccion: 'Ficcion'
 }];
@@ -25,7 +25,7 @@ const libroHistoria = [{
   id: 'historia1',
   titulo: 'Historia Argentina',
   autor: 'Teresa Eggers-Brass',
-  portada: require('../Imagenes/secHistoria/historia1.jpg'),
+  portada: '../Imagenes/secHistoria/historia1.jpg',
   descripcion: 'Descripción genérica',
   seccion: 'Historia'
 }];
@@ -34,7 +34,7 @@ const libroDeporte = [{
   id: 'deporte1',
   titulo: 'El sueño de mi desvelo',
   autor: 'Antoni Daimiel',
-  portada: require('../Imagenes/secDeporte/deporte1.jpg'),
+  portada: '../Imagenes/secDeporte/deporte1.jpg',
   descripcion: 'Descripción genérica',
   seccion: 'Deporte'
 }];
