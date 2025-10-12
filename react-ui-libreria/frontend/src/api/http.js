@@ -1,23 +1,20 @@
 // src/api/http.js
 import { getToken } from '../helpers/auth';
 
-// Soporta Vite (VITE_API_URL) y CRA (REACT_APP_API_URL)
-const viteUrl =
-  typeof import.meta !== 'undefined' &&
-  import.meta.env &&
-  import.meta.env.VITE_API_URL;
+// Normalizamos la URL base: sin barra final
+const RAW_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const BASE_URL = RAW_BASE.replace(/\/$/, '');
 
-const BASE_URL = viteUrl || process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+// Aseguramos que path empiece con / (si el caller manda "libros", lo convertimos a "/libros")
+const joinPath = (p) => (p.startsWith('/') ? p : `/${p}`);
 
 /**
- * Adjunta Authorization si hay token en localStorage.
- * Lo que hace basicamente es envolver fetch para manejar errores y agregar headers automáticamente
- * osea mas claro lo que hace es una función que facilita hacer solicitudes HTTP a una API.
+ * Envolvemos fetch para headers, JSON y manejo de errores.
+ * Por qué: centraliza la lógica HTTP y evita repetir código en servicios.
  */
 export async function http(path, { method = 'GET', body, token, headers = {} } = {}) {
-  const auth = token ?? getToken(); // lee token por defecto
-
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const auth = token ?? getToken();
+  const res = await fetch(`${BASE_URL}${joinPath(path)}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
