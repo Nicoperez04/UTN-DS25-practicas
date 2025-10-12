@@ -9,7 +9,7 @@
 // - Es un script idempotente (segun un video es asi) (se puede correr varias veces sin duplicar).
 // -------------------------------------------------------------
 import 'dotenv/config';
-import { PrismaClient } from '../src/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 

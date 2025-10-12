@@ -1,5 +1,5 @@
 // src/config/prisma.ts
-import { PrismaClient } from "../generated/prisma"; 
+import { PrismaClient } from "@prisma/client"; 
 
 // Usamos un singleton para no abrir muchass conexiones
 const prisma = new PrismaClient({

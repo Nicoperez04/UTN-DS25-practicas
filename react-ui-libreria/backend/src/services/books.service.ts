@@ -3,8 +3,7 @@
 // Usa campo 'categoria' (enum Categoria) y prisma.$transaction.
 // Maneja conflicto único (P2002) en create/update.
 
-import { PrismaClient } from '../generated/prisma'; // si usás @prisma/client, cambialo
-// import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'; 
 const prisma = new PrismaClient();
 
 const ALLOWED_CATEGORIES = ['DEPORTE', 'FICCION', 'HISTORIA', 'INFANTIL'] as const;
