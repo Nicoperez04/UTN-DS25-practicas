@@ -354,3 +354,112 @@ footer {
   .auth-card { width: 94vw; border-radius: 18px; }
   .auth-title { font-size: .95rem; }
 }
+
+/* Estilos para el catálogo */
+.seccion-libros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.bloque-tema {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.bloque-tema:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.bloque-tema .card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.bloque-tema .card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.bloque-tema:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.bloque-tema .card-body {
+  padding: 1.25rem;
+}
+
+.bloque-tema .card-title {
+  color: #35113d;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.bloque-tema .card-text {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.bloque-tema .btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Mejoras para el formulario de búsqueda */
+.contenido-principal .form-control {
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.contenido-principal .form-control:focus {
+  border-color: #35113d;
+  box-shadow: 0 0 0 0.2rem rgba(53, 17, 61, 0.15);
+}
+
+/* Spinner personalizado */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Alertas mejoradas */
+.alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  color: #721c24;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+  color: #0c5460;
+}
+
+/* Responsive para el catálogo */
+@media (max-width: 768px) {
+  .seccion-libros {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .seccion-libros {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .bloque-tema .card-body {
+    padding: 1rem;
+  }
+}
