@@ -80,7 +80,13 @@ export default function Catalogo() {
         setLoading(true);
         setErr("");
 
-        const url = `${endpoint}?t=${Date.now()}`; // cache-buster
+        const params = new URLSearchParams();
+        params.set("page", "1");
+        params.set("pageSize", "1000"); // cualquier número > total (24)
+        params.set("t", String(Date.now())); // cache-buster
+
+        const url = `${endpoint}?${params.toString()}`;
+
         console.info("[Catalogo] GET", url);
         const resp = await fetch(url, {
           signal: controller.signal,
