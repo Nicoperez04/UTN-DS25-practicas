@@ -11,83 +11,80 @@ body {
   padding-top: 80px;
 }
 
+/* =========================
+   HEADER (actualizado)
+   - Fondo sólido (sin imagen)
+   - Ancho completo
+   - Título chico al lado del logo
+   ========================= */
 header {
   position: fixed;
   top: 0;
-  left: 200px;
-  width: calc(100% - 200px); 
+  left: 0;                     /* antes: 200px */
+  width: 100%;                 /* antes: calc(100% - 200px) */
   z-index: 10;
-  background-image: url(../src/Imagenes/Resto/fondo.jpg);
-  background-size: cover;
-  background-position: center;
-  color: white;
-  padding: 20px;
+  /* --- fondo sólido profesional --- */
+  background-color: #111827;   /* sin imagen */
+  color: #f8fafc;
+  padding: 14px 20px;          /* más compacto */
   text-align: left;
   opacity: 1;
 }
 
+/* Título del header: más chico y en línea con el logo */
 header h2 {
-    color: #35113d;
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  color: #f8fafc;              /* antes #35113d */
+  font-size: 18px;             /* antes 40px + absolute */
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin: 0;
+  position: static;            /* lo sacamos del centrado absoluto */
+  transform: none;
+  text-align: left;
 }
-/*Alguna cosas para que quede responsive el header*/
-  @media (max-width: 900px) {
-    header h2 {
-      font-size: 2rem;
-    }
-  }
 
-  @media (max-width: 600px) {
-    header h2 {
-      font-size: 1.5rem;
-    }
-  }
-
-  @media (max-width: 400px) {
-    header h2 {
-      font-size: 1rem;
-    }
-  }
+/* Responsivo de título (mantengo tu idea) */
+@media (max-width: 900px) {
+  header h2 { font-size: 17px; }
+}
+@media (max-width: 600px) {
+  header h2 { font-size: 16px; }
+}
+@media (max-width: 400px) {
+  header h2 { font-size: 15px; }
+}
 
 #cabecera {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;                   /* un toque más compacto */
+  padding: 12px 20px;
 }
 
+/* Logo tal cual, con retoque leve en borde para que combine con el fondo */
 .logo {
-    width: auto;
-    height: 60px;
-    object-fit: cover;
-    overflow: hidden;
-    border: 2px solid #140d2d;
-    border-radius: 100%;
-    background-color: #140d2d;
+  width: auto;
+  height: 48px;                /* un poco más chico para equilibrio visual */
+  object-fit: cover;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,.18);
+  border-radius: 100%;
+  background-color: #0f172a;
 }
+.logo:hover { box-shadow: 0 0 6px rgba(0,0,0,.55); }
 
-.logo:hover {
-    box-shadow: 0px 0px 5px black;
-
-}
-
+/* =========================
+   LATERAL ANTIGUA (se mantiene por si en algún lado reaparece)
+   ========================= */
 nav {
-    background-color: #140d2d;
-    width: 200px;
-    min-height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding-top: 160px;
+  background-color: #140d2d;
+  width: 200px;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 160px;
 }
-
 nav ul {
   margin: 0;
   padding: 0;
@@ -96,11 +93,7 @@ nav ul {
   flex-direction: column;
   align-items: flex-start;
 }
-
-nav ul li {
-  width: 100%;
-}
-
+nav ul li { width: 100%; }
 nav ul li a {
   color: white;
   text-decoration: none;
@@ -110,27 +103,28 @@ nav ul li a {
   background-color: transparent;
   border: none;
 }
-
 nav ul li a:focus,
 nav ul li a:active {
   outline: none;
   background-color: transparent;
   box-shadow: none;
 }
-
 nav ul li a:hover {
   background-color: #35113d;
   border-bottom-right-radius: 10px ;
   border-top-right-radius: 10px;
 }
 
+/* =========================
+   LAYOUT
+   ========================= */
 main {
-    margin-top: 20px;
-    margin-left: 200px;
-    padding: 20px;
-    background-color: white;
-    min-height: 100vh;
-    flex-grow: 1;
+  margin-top: 20px;
+  margin-left: 200px;
+  padding: 20px;
+  background-color: white;
+  min-height: 100vh;
+  flex-grow: 1;
 }
 
 footer {
@@ -148,25 +142,21 @@ footer {
   min-height: 100vh;
 }
 
+/* =========================
+   GRID LIBROS
+   ========================= */
 .seccion-libros {
   display: grid;
-  grid-template-columns: repeat(3, minmax(150px, 1fr)); /*Esto para que aparezca de 3x2 que antes no pude*/
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
   gap: 1.5rem;
   margin: 1rem 0;
 }
-
-/*Esto para que sea responsive en lo posible*/
-  @media (max-width: 900px) {
-    .seccion-libros {
-      grid-template-columns: repeat(2, minmax(200px, 1fr));
-    }
-  }
-
-  @media (max-width: 600px) {
-    .seccion-libros {
-      grid-template-columns: 1fr;
-    }
-  }
+@media (max-width: 900px) {
+  .seccion-libros { grid-template-columns: repeat(2, minmax(200px, 1fr)); }
+}
+@media (max-width: 600px) {
+  .seccion-libros { grid-template-columns: 1fr; }
+}
 
 .bloque-tema {
   background-color: #ffffff;
@@ -181,7 +171,6 @@ footer {
   align-items: center;
   text-align: center;
 }
-
 .bloque-tema img {
   width: 100%;
   height: auto;
@@ -189,31 +178,28 @@ footer {
   border-radius: 4px;
   margin-bottom: 0.75rem;
 }
-
 .bloque-tema a {
   display: inline-block;
   margin-top: 10px;
   color: #007BFF;
   text-decoration: none;
 }
-
-.bloque-tema a:hover {
-  text-decoration: underline;
-}
+.bloque-tema a:hover { text-decoration: underline; }
 
 /* --- RHF + Yup --- */
 .input-error {
   border-color: #dc3545 !important;
   box-shadow: 0 0 0 0.2rem rgba(220,53,69,.1);
 }
-
 .field-error {
   margin-top: 6px;
   font-size: 0.9rem;
   color: #dc3545;
 }
 
-/* === LOGIN === */
+/* =========================
+   LOGIN
+   ========================= */
 .login-bg {
   position: relative;
   background-image: url('./Imagenes/Resto/login.jpg'); 
@@ -221,55 +207,44 @@ footer {
   background-position: center;
   background-repeat: no-repeat;
 }
-
-/* Capa oscura sutil para mejorar el contraste del card */
 .login-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 8, 20, 0.45); /* tono oscuro con transparencia */
+  background: rgba(10, 8, 20, 0.45);
 }
-
-/* Card centrada y con estilo */
 .login-card {
-  position: relative;         /* sobre el overlay */
+  position: relative;
   width: min(92vw, 460px);
   border: none;
-  border-radius: 18px;        /* bordes suaves */
-  overflow: hidden;           /* redondeo en header */
-  backdrop-filter: blur(2px); /* leve “glass” para elegancia */
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(2px);
 }
-
-/* Header morado tipo Federala */
 .login-card__header {
-  background-color: #35113d;  /* tu morado */
+  background-color: #35113d;
   color: #fff;
   padding: 14px 18px;
 }
-
-/* Botón principal del login */
 .login-btn {
   background-color: #a500ca !important;
   border-color: #2e2c2f !important;
   font-weight: 600;
 }
-
-/* Ajustes de InputGroup para el botón “Ver/Ocultar” */
 .input-group > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* ===== HERO con tu imagen ===== */
+
+/* ===== HERO ===== */
 .auth-hero {
   position: relative;
-  min-height: 100dvh;                 /* ocupa alto real de viewport */
+  min-height: 100dvh;
   background-size: cover;
-  background-position: center 35%;    /* centra y sube un toque la imagen */
+  background-position: center 35%;
   background-repeat: no-repeat;
-  background-attachment: fixed;       /* leve efecto parallax en desktop */
+  background-attachment: fixed;
   padding: 6vh 16px;
 }
-
-/* Overlay degradado para contraste y foco */
 .auth-overlay {
   position: absolute;
   inset: 0;
@@ -278,20 +253,16 @@ footer {
     linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45));
   pointer-events: none;
 }
-.auth-hero.d-flex.align-items-center.justify-content-center {
-  margin-top: -80px;
-}
+.auth-hero.d-flex.align-items-center.justify-content-center { margin-top: -80px; }
 
-/* ===== CARD “pro” (glass + borde degradado + sombra suave) ===== */
+/* ===== CARD ===== */
 .auth-card {
   position: relative;
   width: min(92vw, 520px);
   border-radius: 20px;
-  /* Glass suave: */
   background: rgba(255, 255, 255, 0.01);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  /* Borde degradado sutil con pseudo-elemento */
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow:
     0 28px 50px rgba(0,0,0,.35),
@@ -300,15 +271,13 @@ footer {
 .auth-card::before {
   content: "";
   position: absolute;
-  inset: -1px;                        /* cubre el borde */
+  inset: -1px;
   z-index: -1;
   border-radius: 22px;
   background: linear-gradient(135deg, #ffffff, #e8dcf0, #c79dd9, #ffffff);
   filter: blur(6px);
   opacity: .35;
 }
-
-/* Título en pastilla morada */
 .auth-title {
   display: center;
   margin-left: 130px;
@@ -319,8 +288,6 @@ footer {
   font-weight: 700;
   letter-spacing: .2px;
 }
-
-/* Inputs XL y focus ring moderno */
 .form-control-xl {
   height: 48px;
   border-radius: 12px;
@@ -328,19 +295,15 @@ footer {
   background: #fff;
 }
 .form-control-xl:focus {
-  border-color: #8a5aa0; /* tono morado suave */
+  border-color: #8a5aa0;
   box-shadow: 0 0 0 0.2rem rgba(138, 90, 160, .15);
 }
-
-/* Botón de ojo integrado al input */
 .btn-eye {
   color: #d0d0d0;
   background:transparent;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-
-/* Botón principal consistente con marca */
 .auth-btn {
   background-color: #35113d !important;
   border-color: #35113d !important;
@@ -348,67 +311,46 @@ footer {
   padding-block: 12px;
   border-radius: 14px;
 }
-
-/* Responsive finos */
 @media (max-width: 480px) {
   .auth-card { width: 94vw; border-radius: 18px; }
   .auth-title { font-size: .95rem; }
 }
 
-/* Estilos para el catálogo */
+/* =========================
+   CATÁLOGO (mejoras)
+   ========================= */
 .seccion-libros {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
 }
-
 .bloque-tema {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-
 .bloque-tema:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
-
 .bloque-tema .card {
   border: none;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
-.bloque-tema .card-img-top {
-  transition: transform 0.3s ease;
-}
-
-.bloque-tema:hover .card-img-top {
-  transform: scale(1.05);
-}
-
-.bloque-tema .card-body {
-  padding: 1.25rem;
-}
-
+.bloque-tema .card-img-top { transition: transform 0.3s ease; }
+.bloque-tema:hover .card-img-top { transform: scale(1.05); }
+.bloque-tema .card-body { padding: 1.25rem; }
 .bloque-tema .card-title {
   color: #35113d;
   font-weight: 600;
   margin-bottom: 0.75rem;
   font-size: 1.1rem;
 }
+.bloque-tema .card-text { margin-bottom: 0.5rem; color: #666; }
+.bloque-tema .btn { border-radius: 8px; font-weight: 500; }
 
-.bloque-tema .card-text {
-  margin-bottom: 0.5rem;
-  color: #666;
-}
-
-.bloque-tema .btn {
-  border-radius: 8px;
-  font-weight: 500;
-}
-
-/* Mejoras para el formulario de búsqueda */
+/* Búsqueda */
 .contenido-principal .form-control {
   border-radius: 12px;
   border: 2px solid #e9ecef;
@@ -416,50 +358,308 @@ footer {
   font-size: 1rem;
   transition: all 0.2s ease;
 }
-
 .contenido-principal .form-control:focus {
   border-color: #35113d;
   box-shadow: 0 0 0 0.2rem rgba(53, 17, 61, 0.15);
 }
 
-/* Spinner personalizado */
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
-}
-
-/* Alertas mejoradas */
+/* Spinner / Alertas */
+.spinner-border { width: 3rem; height: 3rem; }
 .alert {
   border-radius: 12px;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .alert-danger {
   background: linear-gradient(135deg, #f8d7da, #f5c6cb);
   color: #721c24;
 }
-
 .alert-info {
   background: linear-gradient(135deg, #d1ecf1, #bee5eb);
   color: #0c5460;
 }
-
-/* Responsive para el catálogo */
 @media (max-width: 768px) {
   .seccion-libros {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1rem;
   }
 }
-
 @media (max-width: 480px) {
-  .seccion-libros {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-  
-  .bloque-tema .card-body {
-    padding: 1rem;
-  }
+  .seccion-libros { grid-template-columns: 1fr; gap: 0.75rem; }
+  .bloque-tema .card-body { padding: 1rem; }
 }
+
+/* =========================
+   OVERRIDES PARA LAYOUT SIN SIDEBAR
+   ========================= */
+header#cabecera {
+  left: 0 !important;
+  width: 100% !important;
+}
+main,
+.contenido-principal,
+footer {
+  margin-left: 0 !important;   /* ya no hay barra lateral */
+}
+.brand-click { cursor: pointer; }
+
+/* =========================
+   NAVEGACIÓN SUPERIOR (ya existente)
+   ========================= */
+.app-nav{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-nav__list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.app-nav__item{ position: relative; }
+.app-nav__link{
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s ease, outline-color .15s ease;
+  background: rgba(255,255,255,0.06);
+}
+.app-nav__link:hover,
+.app-nav__link.active,
+.app-nav__link.is-active{
+  background: rgba(255,255,255,0.14);
+  outline: 1px solid rgba(124,58,237,.35); /* leve acento */
+}
+.app-nav__link:focus-visible{
+  outline: 2px solid rgba(124,58,237,.65);
+  outline-offset: 2px;
+}
+.dd-btn{ border: 0; background: rgba(255,255,255,0.06); color: #fff; }
+.dd-btn:hover{ background: rgba(255,255,255,0.14); }
+.chev{ opacity: .9; transform: translateY(-1px); }
+
+/* Dropdown */
+.has-dd .dd-menu{
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 200px;
+  background: #0f172a;                         /* sólido y consistente */
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+.has-dd.is-open .dd-menu{ display: grid; }
+.dd-menu .app-nav__link{
+  background: transparent;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.dd-menu .app-nav__link:hover{ background: rgba(255,255,255,.06); }
+
+/* Usuario */
+.userbox{
+  position: relative;
+  margin-left: 10px;
+}
+.userbox__btn{
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  display: grid; place-items: center;
+}
+.userbox__avatar{
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #7c3aed;
+  color: #fff; font-weight: 700;
+  display: grid; place-items: center;
+}
+.userbox__menu{
+  display: none;
+  position: absolute;
+  right: 0; top: calc(100% + 8px);
+  min-width: 240px;
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 10px;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+.userbox.is-open .userbox__menu{ display: grid; gap: 10px; }
+.userbox__info{
+  border-bottom: 1px dashed rgba(255,255,255,.2);
+  padding-bottom: 8px; margin-bottom: 8px;
+}
+.userbox__name{ font-weight: 700; }
+.userbox__email{ opacity: .85; font-size: .95rem; }
+
+/* Responsive simple: apilamos si no entra */
+@media (max-width: 960px){
+  .app-nav__list{ gap: 2px; }
+  .app-nav__link{ padding: 8px 10px; }
+}
+@media (max-width: 680px){
+  .app-nav{ flex-wrap: wrap; justify-content: flex-end; }
+  .userbox{ order: 2; }
+}
+
+
+/* =========================
+   OVERRIDES HEADER + NAV (mínimos)
+   ========================= */
+
+/* 1) Header levemente más alto */
+:root { --header-pad-y: 16px; } /* antes 12–14px aprox */
+
+header {
+  padding: var(--header-pad-y) 40px !important;
+}
+#cabecera {
+  padding: var(--header-pad-y) 40px !important;
+}
+
+/* 2) Eliminar el espacio gris entre header y el resto */
+body {
+  /* Compensamos el header fijo. 48px (logo) + padding vertical * 2 */
+  padding-top: calc(48px + (var(--header-pad-y) * 2)) !important;
+}
+/* El main tenía un margin-top que generaba la franja gris */
+main,
+.contenido-principal {
+  margin-top: 0 !important;
+}
+
+/* 3) Nav solo texto (sin fondo), más separación y “un poco a la izquierda” */
+.app-nav {
+  margin-left: 24px;          /* acerca la nav hacia la izquierda */
+  gap: 16px;
+}
+.app-nav__list {
+  gap: 18px;                  /* más separación entre items */
+}
+.app-nav__link,
+.dd-btn {
+  background: transparent !important; /* sin fondo */
+  border: 0 !important;               /* sin borde */
+  padding: 6px 4px !important;        /* texto “liviano” */
+  color: #e5e7eb !important;
+}
+.app-nav__link:hover,
+.dd-btn:hover {
+  color: #ffffff !important;
+  text-decoration: underline;         /* feedback sin caja */
+}
+.app-nav__link.is-active,
+.app-nav__link.active {
+  outline: none !important;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(124, 58, 237, .7); /* acento discreto */
+  padding-bottom: 4px !important;      /* compensar el subrayado */
+}
+
+/* 4) Dropdowns: mantener look sólido, pero los ítems también texto */
+.has-dd .dd-menu {
+  background: #0f172a !important;
+}
+.dd-menu .app-nav__link {
+  padding: 10px 12px !important;
+}
+.dd-menu .app-nav__link:hover {
+  background: transparent !important;
+  text-decoration: underline;
+}
+
+/* 5) Avatar sin cambios grandes, alineado visualmente */
+.userbox__btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* =========================
+   NAV HOVER — mejora sutil (solo hover)
+   ========================= */
+
+/* Quitamos el subrayado feo del hover anterior */
+.app-nav__link:hover,
+.dd-btn:hover {
+  text-decoration: none !important;
+  color: #ffffff !important;
+}
+
+/* Subrayado animado con gradiente (desde el centro hacia los lados) */
+.app-nav__link,
+.dd-btn {
+  position: relative; /* necesario para el pseudo-elemento */
+}
+
+.app-nav__link::after,
+.dd-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;                 /* distancia bajo el texto */
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #7c3aed, #60a5fa);
+  transform: translateX(-50%);
+  transition: width .25s ease;
+  pointer-events: none;
+  opacity: .95;
+}
+
+.app-nav__link:hover::after,
+.dd-btn:hover::after {
+  width: 100%;
+}
+
+/* En el dropdown aplicamos el mismo efecto */
+.dd-menu .app-nav__link {
+  position: relative;
+}
+.dd-menu .app-nav__link::after {
+  bottom: -4px;
+}
+.dd-menu .app-nav__link:hover {
+  color: #ffffff !important;
+  background: transparent !important; /* seguimos sin caja en el menú */
+}
+
+/* Quitar el borde/contorno del botón "Secciones" (y demás dropdowns) */
+.dd-btn,
+.app-nav__link {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  appearance: none;            /* quita borde nativo */
+  -webkit-appearance: none;    /* Safari/Chrome */
+}
+
+/* También sin contorno en focus/focus-visible */
+.dd-btn:focus,
+.dd-btn:focus-visible,
+.app-nav__link:focus,
+.app-nav__link:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* (por si el borde venía de un outline anterior que quedó en cascada) */
+.app-nav__link.is-active,
+.app-nav__link.active {
+  outline: none !important;
+  border: none !important;
+}
+

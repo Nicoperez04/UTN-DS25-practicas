@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './estilos.css';
 
 import Header       from './Componentes/Header';
-import Menu         from './Componentes/Menu';
 import Footer       from './Componentes/Footer';
 import Home         from './Componentes/Home';
 import SecFiccion   from './Componentes/SecFiccion';
@@ -27,31 +26,27 @@ function PrivateShell() {
   return (
     <>
       <Header />
-      <div className="layout-contenido d-flex">
-        <Menu />
-        <div className="flex-fill">
-          <Routes>
-            {/* Rutas privadas */}
-            <Route path="/home" element={<Home />} />
-            <Route path="/ficcion" element={<SecFiccion />} />
-            <Route path="/deporte" element={<SecDeporte />} />
-            <Route path="/infantil" element={<SecInfantil />} />
-            <Route path="/historia" element={<SecHistoria />} />
-            <Route path="/catalogo" element={<Catalogo />} />
-            <Route path="/contacto" element={<Contacto />} />
-            <Route path="/registro" element={<Registro />} />
-            <Route path="/agregarLibro" element={<AgregarLibro onAgregar={() => {}} />} />
-            <Route path="/test-api" element={<TestApi />} />
-
-            {/* Default privado */}
-            <Route path="*" element={<Navigate to="/home" replace />} />
-          </Routes>
-        </div>
+      <div className="layout-contenido">
+        <Routes>
+          {/* Rutas privadas */}
+          <Route path="/home" element={<Home />} />
+          <Route path="/ficcion" element={<SecFiccion />} />
+          <Route path="/deporte" element={<SecDeporte />} />
+          <Route path="/infantil" element={<SecInfantil />} />
+          <Route path="/historia" element={<SecHistoria />} />
+          <Route path="/catalogo" element={<Catalogo />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/agregarLibro" element={<AgregarLibro onAgregar={() => {}} />} />
+          <Route path="/test-api" element={<TestApi />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
       </div>
       <Footer />
     </>
   );
 }
+
 
 // Redirige raíz según sesión
 function RootRedirect() {
