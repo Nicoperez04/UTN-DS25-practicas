@@ -1,60 +1,91 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from "react";
 
-/**
- * 1) Importamos TODAS las imágenes por carpeta con require.context
- * 2) Normalizamos el retorno: puede ser string o { default: string }
- * 3) Ordenamos alfabéticamente para un mapeo estable por índice
- */
-function importAll(ctx) {
-  return ctx
-    .keys()
-    .sort()
-    .map((k) => {
-      const m = ctx(k);
-      return typeof m === 'string' ? m : (m && m.default) ? m.default : '';
-    })
-    .filter(Boolean);
+/* -------------------- Normalización de categoría -------------------- */
+function normalizeCategory(input) {
+  const raw = String(input ?? "").trim().toUpperCase();
+  const map = {
+    FICCIÓN: "FICCION",
+    FICCION: "FICCION",
+    DEPORTES: "DEPORTE",
+    DEPORTE: "DEPORTE",
+    HISTORIA: "HISTORIA",
+    INFANTIL: "INFANTIL",
+  };
+  return map[raw] || "RESTO";
 }
 
-function useImagesByCategory() {
-  return useMemo(() => {
-    const RESTO     = importAll(require.context('../Imagenes/Resto',      false, /\.(png|jpe?g|webp)$/));
-    const DEPORTE   = importAll(require.context('../Imagenes/secDeporte',  false, /\.(png|jpe?g|webp)$/));
-    const FICCION   = importAll(require.context('../Imagenes/secFiccion',  false, /\.(png|jpe?g|webp)$/));
-    const HISTORIA  = importAll(require.context('../Imagenes/secHistoria', false, /\.(png|jpe?g|webp)$/));
-    const INFANTIL  = importAll(require.context('../Imagenes/secInfantil', false, /\.(png|jpe?g|webp)$/));
+const CATEGORY_DIR = {
+  FICCION: "secFiccion",
+  DEPORTE: "secDeporte",
+  HISTORIA: "secHistoria",
+  INFANTIL: "secInfantil",
+  RESTO: "Resto",
+};
 
-    return {
-      RESTO,
-      DEPORTE,
-      FICCION,
-      HISTORIA,
-      INFANTIL,
-    };
-  }, []);
-}
+const DEFAULT_IMAGE = "fondo.jpg";
 
+/* -------------------- Helpers para portadas -------------------- */
 /**
- * Reglas para elegir la portada:
- * 1) Si el libro trae URL en BD (libro.portada), usarla.
- * 2) Si no, tomar la N-ésima imagen de la carpeta de su categoría (por índice en la grilla).
- * 3) Si la carpeta está vacía, usar RESTO/fondo.jpg si existe.
+ * Si viene una URL absoluta (ej: http://localhost:3000/imagenes/secFiccion/ficcion5.jpg)
+ * devolvemos SOLO el path y lo mapeamos a /Imagenes/... del front (carpeta /public).
+ * - Hace case-fix del prefijo (/imagenes -> /Imagenes)
+ * - Garantiza leading slash
  */
-function pickCover(libro, idx, images) {
-  if (libro?.portada) return libro.portada;
-
-  const arr = images[libro?.categoria]; // 'DEPORTE' | 'FICCION' | 'HISTORIA' | 'INFANTIL'
-  if (Array.isArray(arr) && arr.length > 0) {
-    return arr[idx % arr.length]; // mapeo estable por posición
+function absoluteToPublicPath(urlStr) {
+  try {
+    const u = new URL(urlStr);
+    let p = u.pathname || "/";
+    // normalizamos prefijo "imagenes" a "Imagenes" (servidores Linux son case-sensitive)
+    p = p.replace(/^\/imagenes\//i, "/Imagenes/");
+    // garantizamos slash inicial
+    if (!p.startsWith("/")) p = `/${p}`;
+    return p;
+  } catch {
+    return ""; // no era URL válida; que siga el flujo normal
   }
-  // fallback
-  const fallback = images.RESTO?.find((p) => /fondo\.(png|jpe?g|webp)$/i.test(p));
-  return fallback || '';
 }
 
-function CardLibro({ libro, idx, images }) {
+/**
+ * Resuelve la src final de la portada, cubriendo TODOS los casos:
+ * 1) portada absoluta (http/https) -> tomamos solo pathname y lo mapeamos a /Imagenes/ del front
+ * 2) portada que es ruta absoluta/relativa -> la normalizamos a /Imagenes/<...>
+ * 3) portada que es nombre de archivo -> la buscamos en la carpeta por categoría
+ * 4) nada -> fallback por categoría -> fallback global
+ */
+function resolveCoverSrc(libro) {
+  const portada = libro?.portada || libro?.imagen || libro?.img || "";
+
+  // Caso 1: URL absoluta (incluye localhost / dominios del back)
+  if (typeof portada === "string" && /^https?:\/\//i.test(portada)) {
+    const pathOnly = absoluteToPublicPath(portada);
+    if (pathOnly) return pathOnly;
+  }
+
+  // Caso 2: ruta absoluta/relativa que ya apunta a imagenes
+  if (typeof portada === "string" && portada) {
+    // normalizar prefijo y leading slash
+    if (/^\/?imagenes\//i.test(portada) || /^\/?Imagenes\//.test(portada)) {
+      let p = portada.replace(/^\/?imagenes\//i, "/Imagenes/");
+      if (!p.startsWith("/")) p = `/${p}`;
+      return p;
+    }
+
+    // Caso 3: es solo un nombre de archivo => resolvemos por categoría
+    const cat = normalizeCategory(libro?.categoria);
+    const dir = CATEGORY_DIR[cat] || CATEGORY_DIR.RESTO;
+    return `/Imagenes/${dir}/${portada}`;
+  }
+
+  // Caso 4: fallback por categoría
+  const cat = normalizeCategory(libro?.categoria);
+  const dir = CATEGORY_DIR[cat] || CATEGORY_DIR.RESTO;
+  return `/Imagenes/${dir}/${DEFAULT_IMAGE}`;
+}
+
+/* -------------------- Componente -------------------- */
+function CardLibro({ libro }) {
   const [open, setOpen] = useState(false);
-  const src = pickCover(libro, idx, images);
+  const [src, setSrc] = useState(() => resolveCoverSrc(libro));
 
   return (
     <div className="col-12 col-md-6 col-lg-4 d-flex">
@@ -63,11 +94,10 @@ function CardLibro({ libro, idx, images }) {
           src={src}
           alt={`Portada de ${libro.titulo}`}
           className="card-img-top img-fluid w-100"
-          style={{ aspectRatio: '16 / 9', objectFit: 'cover', display: 'block' }}
-          onError={(e) => {
-            // ultimo fallback si la ruta falla
-            const fb = images.RESTO?.find((p) => /fondo\.(png|jpe?g|webp)$/i.test(p));
-            if (fb) e.currentTarget.src = fb;
+          style={{ aspectRatio: "16 / 9", objectFit: "cover", display: "block" }}
+          onError={() => {
+            // fallback final SIEMPRE disponible en /public
+            setSrc("/Imagenes/Resto/fondo.jpg");
           }}
         />
         <div className="card-body d-flex flex-column">
@@ -76,7 +106,7 @@ function CardLibro({ libro, idx, images }) {
 
           {open && (
             <div className="small text-body-secondary mb-2">
-              {libro.descripcion || 'Descripción no disponible.'}
+              {libro.descripcion || "Descripción no disponible."}
             </div>
           )}
 
@@ -86,7 +116,7 @@ function CardLibro({ libro, idx, images }) {
               className="btn btn-outline-primary btn-sm"
               onClick={() => setOpen((v) => !v)}
             >
-              {open ? 'Ver menos' : 'Ver más'}
+              {open ? "Ver menos" : "Ver más"}
             </button>
           </div>
         </div>
@@ -96,16 +126,14 @@ function CardLibro({ libro, idx, images }) {
 }
 
 export default function Section({ titulo, title, libros = [] }) {
-  const images = useImagesByCategory();
-  const heading = titulo ?? title ?? '';
-
+  const heading = titulo ?? title ?? "";
   return (
     <main className="contenido-principal">
       {heading && <h2 className="mb-3">{heading}</h2>}
       <div className="container">
         <div className="row g-4">
           {libros.map((libro, idx) => (
-            <CardLibro key={libro.id} libro={libro} idx={idx} images={images} />
+            <CardLibro key={libro.id ?? `${libro.titulo}-${idx}`} libro={libro} />
           ))}
         </div>
       </div>
