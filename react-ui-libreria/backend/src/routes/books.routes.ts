@@ -7,18 +7,15 @@ import {
   deleteBookHandler,
 } from '../controllers/books.controller';
 
-// ✅ Usa los mismos nombres que exporta tu book.validation.ts
 import {
-  listQuerySchema,   // <- era esto, no listBooksQuerySchema
+  listQuerySchema,  
   idParamSchema,
   createBookSchema,
   updateBookSchema,
 } from '../validations/book.validation';
 
-// ✅ Tu middleware de validación (1 solo argumento)
 import { validate } from '../middlewares/validation.middleware';
 
-// ✅ Tus middlewares de auth (como en deporte)
 import { authenticate } from '../middlewares/authenticate.middleware';
 import { authorize } from '../middlewares/authorize.middleware';
 
@@ -27,7 +24,7 @@ export const booksRouter = Router();
 // GET /api/libros?q=&categoria=&page=&pageSize=
 booksRouter.get(
   '/libros',
-  validate(listQuerySchema),     // valida req.query (tu middleware ya sabe de dónde leer)
+  validate(listQuerySchema),     
   getBooksHandler
 );
 
@@ -38,7 +35,7 @@ booksRouter.get(
   getBookHandler
 );
 
-// POST /api/libros   (protegido, igual que deporte)
+// POST /api/libros   
 /*booksRouter.post(
   '/libros',
   authenticate,

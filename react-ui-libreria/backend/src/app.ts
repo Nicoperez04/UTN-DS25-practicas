@@ -77,10 +77,4 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   res.status(status).json({ error: err?.message ?? 'Internal Server Error' })
 })
 
-// --- Arranque -----------------------------------------------------------
-const PORT = Number(process.env.PORT) || 3000
-app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`)
-})
-
 export default app

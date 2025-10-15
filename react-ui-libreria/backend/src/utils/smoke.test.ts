@@ -1,0 +1,9 @@
+describe('Smoke', () => {
+  test('jest corre OK', () => {
+    // ARRANGE: nada
+    // ACT
+    const suma = 2 + 2;
+    // ASSERT
+    expect(suma).toBe(4);
+  });
+});
