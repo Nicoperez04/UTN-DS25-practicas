@@ -3,8 +3,7 @@
 // Usa campo 'categoria' (enum Categoria) y prisma.$transaction.
 // Maneja conflicto único (P2002) en create/update.
 
-import { PrismaClient } from '@prisma/client'; 
-const prisma = new PrismaClient();
+import prisma from '../config/prisma';
 
 const ALLOWED_CATEGORIES = ['DEPORTE', 'FICCION', 'HISTORIA', 'INFANTIL'] as const;
 type CategoriaStr = typeof ALLOWED_CATEGORIES[number];
@@ -57,7 +56,13 @@ export async function listBooks(params: ListBooksParams) {
 }
 
 export async function getBookById(id: number) {
-  return prisma.book.findUnique({ where: { id } });
+  const book = await prisma.book.findUnique({ where: { id }, include: { author: true } });
+  if (!book) {
+    const error = new Error('Book not found') as any;
+    error.statusCode = 404;
+    throw error;
+  }
+  return book;
 }
 
 export type CreateBookInput = {
@@ -85,6 +90,7 @@ export async function createBook(payload: CreateBookInput) {
         portada: payload.portada ?? null,
         authorId: payload.authorId ?? null,
       },
+      include: { author: true },
     });
   } catch (e: any) {
     // P2002 = unique constraint (titulo, autor, categoria)
@@ -109,8 +115,14 @@ export async function updateBook(id: number, payload: UpdateBookInput) {
   }
 
   try {
-    return await prisma.book.update({ where: { id }, data });
+    return await prisma.book.update({ where: { id }, data, include: { author: true } });
   } catch (e: any) {
+    // Prisma error P2025 = Record Not Found
+    if (e?.code === 'P2025') {
+      const error = new Error('Book not found') as any;
+      error.statusCode = 404;
+      throw error;
+    }
     if (e?.code === 'P2002') {
       throw Object.assign(new Error('Ya existe un libro con mismo título/autor/categoría'), { status: 409 });
     }
@@ -119,5 +131,20 @@ export async function updateBook(id: number, payload: UpdateBookInput) {
 }
 
 export async function deleteBook(id: number) {
-  await prisma.book.delete({ where: { id } });
+  try {
+    await prisma.book.delete({ where: { id } });
+  } catch (e: any) {
+    // Prisma error P2025 = Record Not Found
+    if (e?.code === 'P2025') {
+      const error = new Error('Book not found') as any;
+      error.statusCode = 404;
+      throw error;
+    }
+    throw e;
+  }
+}
+
+export async function getAllBooks() {
+  const books = await prisma.book.findMany({ include: { author: true }, orderBy: { id: 'asc' } });
+  return books;
 }
