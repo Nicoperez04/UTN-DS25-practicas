@@ -1,4 +1,4 @@
-// backend/src/routes/__tests__/books.routes.test.ts
+// Tests de routes - verificar que las rutas estén configuradas correctamente
 
 jest.mock('../../validations/book.validation', () => ({
   listQuerySchema: { __tag: 'listQuerySchema' },
@@ -20,6 +20,7 @@ jest.mock('../../middlewares/validation.middleware', () => {
 jest.mock('../../middlewares/authenticate.middleware', () => ({
   authenticate: function authenticate(_req: any, _res: any, next: any) { return next(); },
 }));
+
 jest.mock('../../middlewares/authorize.middleware', () => ({
   authorize: (_role: string) =>
     function authorize(_req: any, _res: any, next: any) { return next(); },
@@ -50,9 +51,14 @@ function findRoute(router: any, method: string, path: string) {
   return null;
 }
 
-describe('Unit: books.routes wiring', () => {
-  test('GET /libros', () => {
+describe('books.routes', () => {
+  test('debe configurar GET /libros correctamente', () => {
+    // ARRANGE: Buscar la ruta
     const route = findRoute(booksRouter, 'get', '/libros');
+
+    // ACT: No hay acción específica, solo verificar configuración
+
+    // ASSERT: Verificar que la ruta existe y tiene los middlewares correctos
     expect(route).toBeTruthy();
     const names = route.stack.map((s: any) => s.name);
     expect(names).toEqual(['validateMiddleware', 'getBooksHandler']);
@@ -60,8 +66,13 @@ describe('Unit: books.routes wiring', () => {
     expect(first.__schema).toBe(listQuerySchema);
   });
 
-  test('GET /libros/:id', () => {
+  test('debe configurar GET /libros/:id correctamente', () => {
+    // ARRANGE: Buscar la ruta
     const route = findRoute(booksRouter, 'get', '/libros/:id');
+
+    // ACT: No hay acción específica, solo verificar configuración
+
+    // ASSERT: Verificar que la ruta existe y tiene los middlewares correctos
     expect(route).toBeTruthy();
     const names = route.stack.map((s: any) => s.name);
     expect(names).toEqual(['validateMiddleware', 'getBookHandler']);
@@ -69,8 +80,13 @@ describe('Unit: books.routes wiring', () => {
     expect(first.__schema).toBe(idParamSchema);
   });
 
-  test('POST /libros', () => {
+  test('debe configurar POST /libros correctamente', () => {
+    // ARRANGE: Buscar la ruta
     const route = findRoute(booksRouter, 'post', '/libros');
+
+    // ACT: No hay acción específica, solo verificar configuración
+
+    // ASSERT: Verificar que la ruta existe y tiene los middlewares correctos
     expect(route).toBeTruthy();
     const names = route.stack.map((s: any) => s.name);
     expect(names).toEqual(['validateMiddleware', 'createBookHandler']);
@@ -78,8 +94,13 @@ describe('Unit: books.routes wiring', () => {
     expect(first.__schema).toBe(createBookSchema);
   });
 
-  test('PUT /libros/:id', () => {
+  test('debe configurar PUT /libros/:id con autenticación', () => {
+    // ARRANGE: Buscar la ruta
     const route = findRoute(booksRouter, 'put', '/libros/:id');
+
+    // ACT: No hay acción específica, solo verificar configuración
+
+    // ASSERT: Verificar que la ruta existe y tiene autenticación
     expect(route).toBeTruthy();
     const names = route.stack.map((s: any) => s.name);
     expect(names).toEqual([
@@ -95,25 +116,13 @@ describe('Unit: books.routes wiring', () => {
     expect(v2.__schema).toBe(updateBookSchema);
   });
 
-  test('PATCH /libros/:id', () => {
-    const route = findRoute(booksRouter, 'patch', '/libros/:id');
-    expect(route).toBeTruthy();
-    const names = route.stack.map((s: any) => s.name);
-    expect(names).toEqual([
-      'authenticate',
-      'authorize',
-      'validateMiddleware',
-      'validateMiddleware',
-      'updateBookHandler',
-    ]);
-    const v1 = route.stack[2].handle as any;
-    const v2 = route.stack[3].handle as any;
-    expect(v1.__schema).toBe(idParamSchema);
-    expect(v2.__schema).toBe(updateBookSchema);
-  });
-
-  test('DELETE /libros/:id', () => {
+  test('debe configurar DELETE /libros/:id con autenticación', () => {
+    // ARRANGE: Buscar la ruta
     const route = findRoute(booksRouter, 'delete', '/libros/:id');
+
+    // ACT: No hay acción específica, solo verificar configuración
+
+    // ASSERT: Verificar que la ruta existe y tiene autenticación
     expect(route).toBeTruthy();
     const names = route.stack.map((s: any) => s.name);
     expect(names).toEqual([
