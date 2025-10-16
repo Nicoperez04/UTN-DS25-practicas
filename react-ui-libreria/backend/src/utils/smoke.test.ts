@@ -1,3 +1,4 @@
+// Lo hago para ver q Jest corre bien
 describe('Smoke', () => {
   test('jest corre OK', () => {
     // ARRANGE: nada
